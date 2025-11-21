@@ -32,7 +32,7 @@ export class LoginComponent {
     this.authService.login(this.email, this.password).subscribe({
       next: (response) => {
         console.log(' Login exitoso', response);
-        this.router.navigate(['/']);
+        this.router.navigate(['/job-list-one']);
       },
       error: (err) => {
         console.error(' Error login', err);
