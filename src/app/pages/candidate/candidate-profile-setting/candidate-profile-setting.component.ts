@@ -73,6 +73,9 @@ export class CandidateProfileSettingComponent implements OnInit {
         };
       }
     });
+
+    // Sincronizar flags hasCompanyProfile / hasProviderProfile consultando al backend
+    this.authService.refreshUserProfiles().subscribe();
   }
 
   get userTypeLabel(): string {

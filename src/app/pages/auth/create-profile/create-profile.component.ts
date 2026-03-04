@@ -15,13 +15,14 @@ import { SpinnerComponent } from '../../../components/spinner/spinner.component'
   styleUrl: './create-profile.component.scss',
 })
 export class CreateProfileComponent {
-  step: 'selectType' | 'profileForm' = 'selectType';
+  step: 'selectType' | 'profileForm' | 'alreadyExists' = 'selectType';
   userType: 'COMPANY' | 'PROVIDER' | '' = '';
 
   loading = false;
   spinnerMsg = '';
   errorMsg = '';
   successMsg = '';
+  existsMessage = '';
 
   userName = '';
 
@@ -88,10 +89,12 @@ export class CreateProfileComponent {
     // Leer query param ?type= (viene del botón del navbar para agregar segundo perfil)
     const typeParam = this.route.snapshot.queryParamMap.get('type') as 'COMPANY' | 'PROVIDER' | null;
     if (typeParam === 'COMPANY' || typeParam === 'PROVIDER') {
-      // Si ya tiene ese tipo de perfil, redirigir al home
       if ((typeParam === 'COMPANY' && user?.hasCompanyProfile) ||
           (typeParam === 'PROVIDER' && user?.hasProviderProfile)) {
-        this.router.navigate(['/job-list-one']);
+        this.existsMessage = typeParam === 'COMPANY'
+          ? 'Ya tienes un perfil de empresa creado.'
+          : 'Ya tienes un perfil de proveedor creado.';
+        this.step = 'alreadyExists';
         return;
       }
       this.userType = typeParam;
@@ -99,20 +102,28 @@ export class CreateProfileComponent {
       return;
     }
 
-    // Sin query param: lógica original para primer perfil (basada en primaryType)
-    if (user?.primaryType) {
-      this.userType = user.primaryType;
-
-      if (
-        (user.primaryType === 'COMPANY' && user.hasCompanyProfile) ||
-        (user.primaryType === 'PROVIDER' && user.hasProviderProfile)
-      ) {
-        this.router.navigate(['/job-list-one']);
-        return;
-      }
-
-      this.step = 'profileForm';
+    // Si ya tiene ambos perfiles → no hay nada que crear
+    if (user?.hasCompanyProfile && user?.hasProviderProfile) {
+      this.existsMessage = 'Ya tienes ambos perfiles creados (Empresa y Proveedor).';
+      this.step = 'alreadyExists';
+      return;
     }
+
+    // Si tiene empresa pero NO proveedor → ir directo al formulario de proveedor
+    if (user?.hasCompanyProfile && !user?.hasProviderProfile) {
+      this.userType = 'PROVIDER';
+      this.step = 'profileForm';
+      return;
+    }
+
+    // Si tiene proveedor pero NO empresa → ir directo al formulario de empresa
+    if (user?.hasProviderProfile && !user?.hasCompanyProfile) {
+      this.userType = 'COMPANY';
+      this.step = 'profileForm';
+      return;
+    }
+
+    // No tiene ningún perfil → mostrar selección de tipo
   }
 
   selectUserType(type: 'COMPANY' | 'PROVIDER'): void {
@@ -179,7 +190,33 @@ export class CreateProfileComponent {
 
   private onProfileError(err: any): void {
     this.loading = false;
-    this.errorMsg =
-      err.error?.message || 'Error al crear el perfil. Inténtalo de nuevo.';
+    const msg = err.error?.message || '';
+
+    // Si el backend dice que ya existe el perfil, ir a alreadyExists
+    if (msg.toLowerCase().includes('ya existe') || msg.toLowerCase().includes('already exists') || err.status === 409) {
+      this.existsMessage = this.userType === 'COMPANY'
+        ? 'Ya tienes un perfil de empresa creado.'
+        : 'Ya tienes un perfil de proveedor creado.';
+      this.step = 'alreadyExists';
+      // Refrescar perfiles para sincronizar estado
+      this.authService.refreshUserProfiles().subscribe();
+      return;
+    }
+
+    this.errorMsg = msg || 'Error al crear el perfil. Inténtalo de nuevo.';
+  }
+
+  goBack(): void {
+    // Si el usuario ya tiene algún perfil, ir al inicio en vez de selectType
+    const user = this.authService.getCurrentUser();
+    if (user?.hasCompanyProfile || user?.hasProviderProfile) {
+      this.router.navigate(['/job-list-one']);
+    } else {
+      this.step = 'selectType';
+    }
+  }
+
+  goHome(): void {
+    this.router.navigate(['/job-list-one']);
   }
 }

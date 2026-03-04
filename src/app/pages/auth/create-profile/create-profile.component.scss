@@ -240,6 +240,16 @@
   &:hover { background: white; color: var(--blue-500); border-color: var(--blue-300); }
 }
 
+.btn-close-page {
+  position: absolute; top: 14px; right: 14px;
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--surface); border: 1.5px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; color: var(--muted); cursor: pointer;
+  transition: all 0.2s ease; z-index: 10;
+  &:hover { background: white; color: var(--blue-500); border-color: var(--blue-300); }
+}
+
 .profile-step, .profile-form-step {
   .card-header { text-align: center; margin-top: 10px; }
 }
@@ -332,6 +342,33 @@
 }
 
 .btn-arrow { display: inline-block; transition: transform 0.2s; }
+
+/* ── Already exists ── */
+
+.already-exists-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  margin-top: 20px;
+
+  .btn-submit {
+    text-decoration: none;
+    text-align: center;
+  }
+}
+
+.btn-back-link {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: var(--blue-500);
+  }
+}
 
 /* ── Responsive ── */
 

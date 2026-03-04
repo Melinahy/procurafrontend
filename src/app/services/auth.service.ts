@@ -52,6 +52,8 @@ export class AuthService {
       next: (response) => {
         if (response.success) {
           this.currentUserSubject.next(response.data);
+          // Sincronizar flags de perfiles consultando /companies/my y /providers/my
+          this.refreshUserProfiles().subscribe();
         }
       },
       error: () => this.logout()

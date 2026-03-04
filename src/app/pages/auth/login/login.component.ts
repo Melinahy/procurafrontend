@@ -33,34 +33,46 @@ export class LoginComponent {
     this.authService.login(this.email, this.password).subscribe({
       next: (response) => {
         if (response.success && response.data?.user) {
-          const user = response.data.user;
           this.spinnerMsg = 'Verificando tu perfil...';
 
-          // Sin ningún perfil → forzar creación de perfil
-          if (!user.hasCompanyProfile && !user.hasProviderProfile) {
-            this.spinnerMsg = 'Redirigiendo a crear tu perfil...';
-            setTimeout(() => {
-              this.showSpinner = false;
-              this.loading = false;
-              this.router.navigate(['/create-profile']);
-            }, 1000);
-            return;
-          }
-
-          // Validar perfiles via API y luego determinar tipo activo
-          const targetType: 'COMPANY' | 'PROVIDER' = user.hasProviderProfile ? 'PROVIDER' : 'COMPANY';
-          this.authService.updateUserType(targetType).subscribe({
+          // Verificar perfiles REALES consultando /companies/my y /providers/my
+          this.authService.refreshUserProfiles().subscribe({
             next: () => {
-              // Validar con /companies/my y /providers/my para actualizar el estado
-              this.authService.refreshUserProfiles().subscribe();
-              this.spinnerMsg = '¡Bienvenido de vuelta!';
-              setTimeout(() => {
-                this.showSpinner = false;
-                this.loading = false;
-                this.router.navigate(['/job-list-one']);
-              }, 800);
+              const user = this.authService.getCurrentUser();
+              const hasCompany = user?.hasCompanyProfile ?? false;
+              const hasProvider = user?.hasProviderProfile ?? false;
+
+              if (!hasCompany && !hasProvider) {
+                // Sin ningún perfil → crear perfil
+                this.spinnerMsg = 'Redirigiendo a crear tu perfil...';
+                setTimeout(() => {
+                  this.showSpinner = false;
+                  this.loading = false;
+                  this.router.navigate(['/create-profile']);
+                }, 800);
+                return;
+              }
+
+              // Tiene al menos un perfil → ir al inicio
+              const targetType: 'COMPANY' | 'PROVIDER' = hasCompany ? 'COMPANY' : 'PROVIDER';
+              this.authService.updateUserType(targetType).subscribe({
+                next: () => {
+                  this.spinnerMsg = '¡Bienvenido de vuelta!';
+                  setTimeout(() => {
+                    this.showSpinner = false;
+                    this.loading = false;
+                    this.router.navigate(['/job-list-one']);
+                  }, 800);
+                },
+                error: () => {
+                  this.showSpinner = false;
+                  this.loading = false;
+                  this.router.navigate(['/job-list-one']);
+                }
+              });
             },
             error: () => {
+              // Si falla la verificación, ir al inicio de todos modos
               this.showSpinner = false;
               this.loading = false;
               this.router.navigate(['/job-list-one']);

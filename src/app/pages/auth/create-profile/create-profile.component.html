@@ -49,9 +49,31 @@
   </div>
 
   <!-- ═══════════════════════════════════════════ -->
+  <!-- PERFIL YA EXISTE -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="form-card profile-step" *ngIf="step === 'alreadyExists'">
+    <div class="card-header profile-header">
+      <div class="profile-icon-main">✅</div>
+      <h2>¡Todo listo!</h2>
+      <p>{{ existsMessage }}</p>
+    </div>
+
+    <div class="already-exists-actions">
+      <a [routerLink]="'/job-list-one'" class="btn-submit">
+        Ir al inicio <span class="btn-arrow">→</span>
+      </a>
+      <a [routerLink]="'/candidate-profile-setting'" class="btn-back-link">
+        Ir a configuración
+      </a>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
   <!-- STEP 1: SELECCIÓN DE TIPO -->
   <!-- ═══════════════════════════════════════════ -->
   <div class="form-card profile-step" *ngIf="step === 'selectType'">
+    <button class="btn-close-page" (click)="goHome()" title="Ir al inicio">✕</button>
+
     <div class="card-header profile-header">
       <div class="profile-icon-main">👋</div>
       <h2>¡Hola, {{ userName }}!</h2>
@@ -124,7 +146,7 @@
     class="form-card profile-form-step"
     *ngIf="step === 'profileForm' && userType === 'COMPANY'"
   >
-    <button class="btn-back" (click)="step = 'selectType'">← Volver</button>
+    <button class="btn-back" (click)="goBack()">← Volver</button>
 
     <div class="card-header profile-header">
       <div class="profile-icon-main">🏢</div>
@@ -323,7 +345,7 @@
     class="form-card profile-form-step"
     *ngIf="step === 'profileForm' && userType === 'PROVIDER'"
   >
-    <button class="btn-back" (click)="step = 'selectType'">← Volver</button>
+    <button class="btn-back" (click)="goBack()">← Volver</button>
 
     <div class="card-header profile-header">
       <div class="profile-icon-main">🤝</div>
