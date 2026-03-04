@@ -1,265 +1,178 @@
-<app-navbar-dark/>
+<app-spinner *ngIf="loading" [message]="spinnerMsg"></app-spinner>
 
-<section class="section">
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <div class="position-relative">
-                    <div class="candidate-cover">
-                        <div class="profile-banner relative text-transparent">
-                            <input id="pro-banner" name="profile-banner" type="file" class="hidden" (change)="loadFile($event, 'banner')" />
-                            <div class="relative shrink-0">
-                                <img [src]="profileBanner" class="rounded shadow" id="profile-banner" alt="">
-                                <label class="profile-image-label" for="pro-banner"></label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="candidate-profile d-flex align-items-end mx-2">
-                        <div class="profile-pic">
-                            <input id="pro-img" name="profile-image" type="file" class="d-none" (change)="loadFile($event, 'profile')" />
-                            <div class="position-relative d-inline-block">
-                                <img [src]="profileImage" class="avatar avatar-medium img-thumbnail rounded-pill shadow-sm" id="profile-image" alt="">
-                                <label class="icons position-absolute bottom-0 end-0" for="pro-img">
-                                    <span class="btn btn-icon btn-sm btn-pills btn-primary">
-                                        <i data-feather="camera" class="icons"></i>
-                                    </span>
-                                </label>
-                            </div>
-                        </div>
+<app-navbar />
 
-                        <div class="ms-2">
-                            <h5 class="mb-0">Mr. Calvin Carlo</h5>
-                            <p class="text-muted mb-0">Web Designer</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+<section class="settings-page">
+  <div class="settings-container">
+
+    <!-- Header -->
+    <div class="settings-header">
+      <h1>Configuración de cuenta</h1>
+      <p>Administra tu información personal y seguridad</p>
     </div>
 
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <div class="rounded shadow p-4">
-                    <form>
-                        <h5>Personal Detail :</h5>
-                        <div class="row mt-4">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label fw-semibold">First Name:<span class="text-danger">*</span></label>
-                                    <input name="name" id="firstname" type="text" class="form-control" placeholder="First Name :">
-                                </div>
-                            </div>
-                            
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label fw-semibold">Last Name:<span class="text-danger">*</span></label>
-                                    <input name="name" id="lastname" type="text" class="form-control" placeholder="Last Name :">
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label fw-semibold">Your Email:<span class="text-danger">*</span></label>
-                                    <input name="email" id="email2" type="email" class="form-control" placeholder="Your email :">
-                                </div> 
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label fw-semibold">Occupation:</label>
-                                    <select class="form-control form-select" id="Type">
-                                        <option value="WD">Web Designer</option>
-                                        <option value="WD">Web Developer</option>
-                                        <option value="UI">UI / UX Desinger</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label fw-semibold">Location:</label>
-                                    <select class="form-control form-select" id="Country">
-                                        <option value="USA">USA</option>
-                                        <option value="CAD">Canada</option>
-                                        <option value="CHINA">China</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="formFile" class="form-label fw-semibold">Upload Your Cv / Resume :</label>
-                                    <input class="form-control" type="file" id="formFile">
-                                </div>                                                                               
-                            </div>
-
-                            <div class="col-12">
-                                <div class="mb-3">
-                                    <label class="form-label fw-semibold">Introduction :</label>
-                                    <textarea name="comments" id="comments2" rows="4" class="form-control" placeholder="Introduction :"></textarea>
-                                </div>
-                            </div>
-
-                            <div class="col-12">
-                                <input type="submit" id="submit2" name="send" class="submitBnt btn btn-primary" value="Save Changes">
-                            </div>
-                        </div>
-                    </form>
-                </div>
-
-                <div class="rounded shadow p-4 mt-4">
-                    <form>
-                        <div class="row">
-                            <div class="col-md-6 mt-4 pt-2">
-                                <h5>Contact Info :</h5>
-
-                                <form>
-                                    <div class="row mt-4">
-                                        <div class="col-lg-12">
-                                            <div class="mb-3">
-                                                <label class="form-label fw-semibold">Phone No. :</label>
-                                                <input name="number" id="number" type="number" class="form-control" placeholder="Phone :">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-12">
-                                            <div class="mb-3">
-                                                <label class="form-label fw-semibold">Website :</label>
-                                                <input name="url" id="url" type="url" class="form-control" placeholder="Url :">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-12 mt-2 mb-0">
-                                            <button class="btn btn-primary">Add</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                            
-                            <div class="col-md-6 mt-4 pt-2"> 
-                                <h5>Change password :</h5>
-                                <form>
-                                    <div class="row mt-4">
-                                        <div class="col-lg-12">
-                                            <div class="mb-3">
-                                                <label class="form-label fw-semibold">Old password :</label>
-                                                <input type="password" class="form-control" placeholder="Old password" required="">
-                                            </div>
-                                        </div>
-    
-                                        <div class="col-lg-12">
-                                            <div class="mb-3">
-                                                <label class="form-label fw-semibold">New password :</label>
-                                                <input type="password" class="form-control" placeholder="New password" required="">
-                                            </div>
-                                        </div>
-    
-                                        <div class="col-lg-12">
-                                            <div class="mb-3">
-                                                <label class="form-label fw-semibold">Re-type New password :</label>
-                                                <input type="password" class="form-control" placeholder="Re-type New password" required="">
-                                            </div>
-                                        </div>
-    
-                                        <div class="col-lg-12 mt-2 mb-0">
-                                            <button class="btn btn-primary">Save password</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-
-                <div class="rounded shadow p-4 mt-4">
-                    <form>
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <h5>Account Notifications :</h5>
-
-                                <div class="d-flex justify-content-between mt-4">
-                                    <h6 class="mb-0">When someone mentions me</h6>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="noti1">
-                                        <label class="form-check-label" for="noti1"></label>
-                                    </div>
-                                </div>
-                                <div class="d-flex justify-content-between mt-4">
-                                    <h6 class="mb-0">When someone follows me</h6>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" checked id="noti2">
-                                        <label class="form-check-label" for="noti2"></label>
-                                    </div>
-                                </div>
-                                <div class="d-flex justify-content-between mt-4">
-                                    <h6 class="mb-0">When shares my activity</h6>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="noti3">
-                                        <label class="form-check-label" for="noti3"></label>
-                                    </div>
-                                </div>
-                                <div class="d-flex justify-content-between mt-4">
-                                    <h6 class="mb-0">When someone messages me</h6>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="noti4">
-                                        <label class="form-check-label" for="noti4"></label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-6">
-                                <h5>Marketing Notifications :</h5>
-
-                                <div class="d-flex justify-content-between mt-4">
-                                    <h6 class="mb-0">There is a sale or promotion</h6>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="noti5">
-                                        <label class="form-check-label" for="noti5"></label>
-                                    </div>
-                                </div>
-                                <div class="d-flex justify-content-between mt-4">
-                                    <h6 class="mb-0">Company news</h6>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="noti6">
-                                        <label class="form-check-label" for="noti6"></label>
-                                    </div>
-                                </div>
-                                <div class="d-flex justify-content-between mt-4">
-                                    <h6 class="mb-0">Weekly jobs</h6>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" checked id="noti7">
-                                        <label class="form-check-label" for="noti7"></label>
-                                    </div>
-                                </div>
-                                <div class="d-flex justify-content-between mt-4">
-                                    <h6 class="mb-0">Unsubscribe News</h6>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" checked id="noti8">
-                                        <label class="form-check-label" for="noti8"></label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-
-                <div class="rounded shadow p-4 mt-4">
-                    <form>
-                        <h5 class="text-danger">Delete Account :</h5>
-                        <div class="row mt-4">
-                            <h6 class="mb-0">Do you want to delete the account? Please press below "Delete" button</h6>
-                            <div class="mt-4">
-                                <button class="btn btn-danger">Delete Account</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
+    <!-- ══════════════════════════════════════ -->
+    <!-- TARJETA 1: Información personal -->
+    <!-- ══════════════════════════════════════ -->
+    <div class="settings-card">
+      <div class="card-top">
+        <div class="avatar-circle">
+          <span>{{ userInitials }}</span>
         </div>
+        <div class="card-top-info">
+          <h3>{{ userData.firstName }} {{ userData.lastName }}</h3>
+          <span class="user-type-badge">{{ userTypeLabel }}</span>
+        </div>
+      </div>
+
+      <div class="card-divider"></div>
+
+      <h4 class="card-section-title">Información personal</h4>
+
+      <div class="alert-success" *ngIf="profileMsg">{{ profileMsg }}</div>
+      <div class="alert-error" *ngIf="profileError">{{ profileError }}</div>
+
+      <form (ngSubmit)="onSaveProfile()">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nombre *</label>
+            <div class="input-wrap">
+              <span class="input-icon">👤</span>
+              <input type="text" placeholder="Juan"
+                [(ngModel)]="userData.firstName" name="firstName" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Apellido *</label>
+            <div class="input-wrap">
+              <span class="input-icon">👤</span>
+              <input type="text" placeholder="Pérez"
+                [(ngModel)]="userData.lastName" name="lastName" />
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Usuario *</label>
+            <div class="input-wrap">
+              <span class="input-icon">&#64;</span>
+              <input type="text" placeholder="juanperez"
+                [(ngModel)]="userData.username" name="username" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Correo electrónico *</label>
+            <div class="input-wrap">
+              <span class="input-icon">✉</span>
+              <input type="email" placeholder="juan&#64;empresa.com"
+                [(ngModel)]="userData.email" name="email" />
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row single">
+          <div class="form-group">
+            <label>Teléfono</label>
+            <div class="input-wrap">
+              <span class="input-icon">📞</span>
+              <input type="tel" placeholder="+51 999 888 777"
+                [(ngModel)]="userData.phone" name="phone" />
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-primary-action" [disabled]="loading">
+          Guardar cambios
+        </button>
+      </form>
     </div>
+
+    <!-- ══════════════════════════════════════ -->
+    <!-- TARJETA 2: Cambiar contraseña -->
+    <!-- ══════════════════════════════════════ -->
+    <div class="settings-card">
+      <h4 class="card-section-title">Cambiar contraseña</h4>
+      <p class="card-section-desc">Actualiza tu contraseña para mantener tu cuenta segura</p>
+
+      <div class="alert-success" *ngIf="passwordMsg">{{ passwordMsg }}</div>
+      <div class="alert-error" *ngIf="passwordError">{{ passwordError }}</div>
+
+      <form (ngSubmit)="onChangePassword()">
+        <div class="form-group">
+          <label>Contraseña actual</label>
+          <div class="input-wrap">
+            <span class="input-icon">🔒</span>
+            <input type="password" placeholder="••••••••"
+              [(ngModel)]="passwords.oldPassword" name="oldPassword" />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nueva contraseña</label>
+            <div class="input-wrap">
+              <span class="input-icon">🔑</span>
+              <input type="password" placeholder="••••••••"
+                [(ngModel)]="passwords.newPassword" name="newPassword"
+                (input)="checkStrength(passwords.newPassword)" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Confirmar nueva</label>
+            <div class="input-wrap">
+              <span class="input-icon">🔑</span>
+              <input type="password" placeholder="••••••••"
+                [(ngModel)]="passwords.newPasswordConfirm" name="newPasswordConfirm" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Barra de fuerza -->
+        <div class="pwd-strength-row" *ngIf="passwords.newPassword">
+          <div class="pwd-bars">
+            <div [class]="getBarClass(0)"></div>
+            <div [class]="getBarClass(1)"></div>
+            <div [class]="getBarClass(2)"></div>
+          </div>
+          <span class="pwd-label">{{ strengthLabel }}</span>
+          <span class="pwd-hint">8+ · <strong>Aa</strong> · <strong>123</strong> · <strong>!&#64;#</strong></span>
+        </div>
+
+        <button type="submit" class="btn-secondary-action" [disabled]="loading">
+          Actualizar contraseña
+        </button>
+      </form>
+    </div>
+
+    <!-- ══════════════════════════════════════ -->
+    <!-- TARJETA 3: Zona de peligro -->
+    <!-- ══════════════════════════════════════ -->
+    <div class="settings-card danger-zone">
+      <h4 class="card-section-title danger">Zona de peligro</h4>
+
+      <div class="danger-actions">
+        <div class="danger-item">
+          <div>
+            <strong>Cerrar sesión</strong>
+            <p>Salir de tu cuenta en este dispositivo</p>
+          </div>
+          <button class="btn-outline" (click)="logout()">Cerrar sesión</button>
+        </div>
+
+        <div class="danger-divider"></div>
+
+        <div class="danger-item">
+          <div>
+            <strong>Eliminar cuenta</strong>
+            <p>Esta acción es irreversible. Se eliminarán todos tus datos.</p>
+          </div>
+          <button class="btn-danger" disabled>Eliminar cuenta</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
 </section>
 
-<app-footer-top/>
-
-<app-scroll-to-top/>
+<app-scroll-to-top />

@@ -105,6 +105,20 @@ export class AuthService {
     );
   }
 
+  updateProfile(data: { firstName: string; lastName: string; username: string; email: string; phone: string }): Observable<ApiResponse<User>> {
+    return this.http.put<ApiResponse<User>>(`${this.apiUrl}/users/me`, data).pipe(
+      tap(response => {
+        if (response.success) {
+          this.currentUserSubject.next(response.data);
+        }
+      })
+    );
+  }
+
+  changePassword(oldPassword: string, newPassword: string, newPasswordConfirm: string): Observable<ApiResponse<any>> {
+    return this.http.put<ApiResponse<any>>(`${this.apiUrl}/auth/change-password`, { oldPassword, newPassword, newPasswordConfirm });
+  }
+
   forgotPassword(email: string): Observable<ApiResponse<any>> {
     return this.http.post<ApiResponse<any>>(`${this.apiUrl}/auth/forgot-password`, { email });
   }
