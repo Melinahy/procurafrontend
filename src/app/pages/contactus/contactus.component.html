@@ -1,144 +1,251 @@
-<app-navbar/>
+<app-navbar />
 
-<section class="bg-half-170 d-table w-100" style="background: url('/assets/images/hero/bg.jpg');">
-    <div class="bg-overlay bg-gradient-overlay"></div>
-    <div class="container">
-        <div class="row mt-5 justify-content-center">
-            <div class="col-12">
-                <div class="title-heading text-center">
-                    <p class="text-white-50 para-desc mx-auto mb-0">Get in touch !</p>
-                    <h5 class="heading fw-semibold mb-0 sub-heading text-white title-dark">Contact us</h5>
-                </div>
-            </div>
+<!-- Hero -->
+<section class="bg-half-170 d-table w-100" style="background: url('/assets/images/hero/bg.jpg')">
+  <div class="bg-overlay bg-gradient-overlay"></div>
+  <div class="container">
+    <div class="row mt-5 justify-content-center">
+      <div class="col-12">
+        <div class="title-heading text-center">
+          <p class="text-white-50 para-desc mx-auto mb-0">
+            Estamos aqui para ayudarte
+          </p>
+          <h5 class="heading fw-semibold mb-0 sub-heading text-white title-dark">
+            Contactanos
+          </h5>
         </div>
-
-        <div class="position-middle-bottom">
-            <nav aria-label="breadcrumb" class="d-block">
-                <ul class="breadcrumb breadcrumb-muted mb-0 p-0">
-                    <li class="breadcrumb-item"><a [routerLink]="'/'">Jobnova</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Contact us</li>
-                </ul>
-            </nav>
-        </div>
+      </div>
     </div>
+  </div>
 </section>
 <div class="position-relative">
-    <div class="shape overflow-hidden text-white">
-        <svg viewBox="0 0 2880 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0 48H1437.5H2880V0H2160C1442.5 52 720 0 720 0H0V48Z" fill="currentColor"></path>
-        </svg>
-    </div>
+  <div class="shape overflow-hidden text-white">
+    <svg viewBox="0 0 2880 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0 48H1437.5H2880V0H2160C1442.5 52 720 0 720 0H0V48Z" fill="currentColor"></path>
+    </svg>
+  </div>
 </div>
 
+<!-- Formulario + Info -->
 <section class="section pb-0">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-md-6">
-                <img [src]="'assets/images/svg/contact.svg'" class="img-fluid" alt="">
-            </div>
-            <div class="col-md-6">
-                <div class="p-4 rounded shadow ms-lg-5">
-                    <h4>Get in touch !</h4>
-                    <form class="mt-4">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label fw-semibold">Your Name <span class="text-danger">*</span></label>
-                                    <input name="name" id="name" type="text" class="form-control" placeholder="Name :">
-                                </div>
-                            </div>
+  <div class="container">
+    <div class="row align-items-start">
+      <!-- Formulario -->
+      <div class="col-lg-7 col-md-6">
+        <div class="p-4 p-lg-5 rounded shadow bg-white">
+          <h4 class="mb-1 fw-bold">Envianos un mensaje</h4>
+          <p class="text-muted mb-4">Completa el formulario y te responderemos lo antes posible.</p>
 
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label fw-semibold">Your Email <span class="text-danger">*</span></label>
-                                    <input name="email" id="email" type="email" class="form-control" placeholder="Email :">
-                                </div> 
-                            </div>
+          <div class="alert alert-success" *ngIf="successMsg">
+            <i data-feather="check-circle" class="fea icon-sm me-1"></i> {{ successMsg }}
+          </div>
+          <div class="alert alert-danger" *ngIf="errorMsg">{{ errorMsg }}</div>
 
-                            <div class="col-12">
-                                <div class="mb-3">
-                                    <label class="form-label fw-semibold">Subject</label>
-                                    <input name="subject" id="subject" class="form-control" placeholder="Subject :">
-                                </div>
-                            </div>
-
-                            <div class="col-12">
-                                <div class="mb-3">
-                                    <label class="form-label fw-semibold">Comments <span class="text-danger">*</span></label>
-                                    <textarea name="comments" id="comments" rows="4" class="form-control" placeholder="Message :"></textarea>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="d-grid">
-                                    <button type="submit" id="submit" name="send" class="btn btn-primary">Send Message</button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
+          <form (ngSubmit)="onSubmit()">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label class="form-label fw-semibold">Nombre completo <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" placeholder="Tu nombre" [(ngModel)]="form.name" name="name" required>
                 </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label class="form-label fw-semibold">Correo electronico <span class="text-danger">*</span></label>
+                  <input type="email" class="form-control" placeholder="correo&#64;ejemplo.com" [(ngModel)]="form.email" name="email" required>
+                </div>
+              </div>
+
+              <div class="col-12">
+                <div class="mb-3">
+                  <label class="form-label fw-semibold">Asunto</label>
+                  <input type="text" class="form-control" placeholder="Asunto del mensaje" [(ngModel)]="form.subject" name="subject">
+                </div>
+              </div>
+
+              <div class="col-12">
+                <div class="mb-3">
+                  <label class="form-label fw-semibold">Mensaje <span class="text-danger">*</span></label>
+                  <textarea rows="5" class="form-control" placeholder="Escribe tu mensaje aqui..." [(ngModel)]="form.message" name="message" required></textarea>
+                </div>
+              </div>
             </div>
+
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary" [disabled]="sending">
+                <span *ngIf="!sending">Enviar mensaje</span>
+                <span *ngIf="sending">
+                  <span class="spinner-border spinner-border-sm me-1" role="status"></span>
+                  Enviando...
+                </span>
+              </button>
+            </div>
+          </form>
         </div>
-    </div>
+      </div>
 
-    <div class="container mt-100 mt-60">
-        <div class="row g-4">
-            <div class="col-md-4">
-                <div class="position-relative features text-center mx-lg-4 px-md-1">
-                    <div class="feature-icon bg-soft-primary rounded shadow mx-auto position-relative overflow-hidden d-flex justify-content-center align-items-center">
-                        <i data-feather="phone" class="fea icon-ex-md"></i>
-                    </div>
+      <!-- Info lateral -->
+      <div class="col-lg-5 col-md-6 mt-4 mt-md-0">
+        <div class="p-4 p-lg-5 rounded shadow bg-primary text-white">
+          <h4 class="text-white fw-bold mb-1">Informacion de contacto</h4>
+          <p class="text-white-50 mb-4">Conecta con nosotros por cualquiera de estos medios.</p>
 
-                    <div class="mt-4">
-                        <h5 class="mb-3">Phone</h5>
-                        <p class="text-muted">Start working with Jobnova that can provide everything</p>
-                        <a href="tel:+152534-468-854" class="text-primary">+152 534-468-854</a>
-                    </div>
-                </div>
+          <div class="d-flex align-items-start mb-4">
+            <div class="flex-shrink-0">
+              <div class="bg-white bg-opacity-10 rounded p-2 d-flex align-items-center justify-content-center" style="width: 44px; height: 44px;">
+                <i data-feather="phone" class="fea icon-sm text-white"></i>
+              </div>
             </div>
-            
-            <div class="col-md-4">
-                <div class="position-relative features text-center mx-lg-4 px-md-1">
-                    <div class="feature-icon bg-soft-primary rounded shadow mx-auto position-relative overflow-hidden d-flex justify-content-center align-items-center">
-                        <i data-feather="mail" class="fea icon-ex-md"></i>
-                    </div>
-
-                    <div class="mt-4">
-                        <h5 class="mb-3">Email</h5>
-                        <p class="text-muted">Start working with Jobnova that can provide everything</p>
-                        <a href="mailto:contact@example.com" class="text-primary">contact&#64;example.com</a>
-                    </div>
-                </div>
+            <div class="ms-3">
+              <h6 class="text-white mb-1">Telefono</h6>
+              <a href="tel:+51999888777" class="text-white-50 text-decoration-none">+51 999 888 777</a>
             </div>
-            
-            <div class="col-md-4">
-                <div class="position-relative features text-center mx-lg-4 px-md-1">
-                    <div class="feature-icon bg-soft-primary rounded shadow mx-auto position-relative overflow-hidden d-flex justify-content-center align-items-center">
-                        <i data-feather="map-pin" class="fea icon-ex-md"></i>
-                    </div>
+          </div>
 
-                    <div class="mt-4">
-                        <h5 class="mb-3">Location</h5>
-                        <p class="text-muted">C/54 Northwest Freeway, Suite 558, <br>Houston, USA 485</p>
-                        <a href="" class="text-primary">View on Google map</a>
-                    </div>
-                </div>
+          <div class="d-flex align-items-start mb-4">
+            <div class="flex-shrink-0">
+              <div class="bg-white bg-opacity-10 rounded p-2 d-flex align-items-center justify-content-center" style="width: 44px; height: 44px;">
+                <i data-feather="mail" class="fea icon-sm text-white"></i>
+              </div>
             </div>
+            <div class="ms-3">
+              <h6 class="text-white mb-1">Correo electronico</h6>
+              <a href="mailto:contacto@procura.pe" class="text-white-50 text-decoration-none">contacto&#64;procura.pe</a>
+            </div>
+          </div>
+
+          <div class="d-flex align-items-start mb-4">
+            <div class="flex-shrink-0">
+              <div class="bg-white bg-opacity-10 rounded p-2 d-flex align-items-center justify-content-center" style="width: 44px; height: 44px;">
+                <i data-feather="message-circle" class="fea icon-sm text-white"></i>
+              </div>
+            </div>
+            <div class="ms-3">
+              <h6 class="text-white mb-1">WhatsApp</h6>
+              <a href="https://wa.me/51999888777" target="_blank" class="text-white-50 text-decoration-none">+51 999 888 777</a>
+            </div>
+          </div>
+
+          <div class="d-flex align-items-start mb-4">
+            <div class="flex-shrink-0">
+              <div class="bg-white bg-opacity-10 rounded p-2 d-flex align-items-center justify-content-center" style="width: 44px; height: 44px;">
+                <i data-feather="map-pin" class="fea icon-sm text-white"></i>
+              </div>
+            </div>
+            <div class="ms-3">
+              <h6 class="text-white mb-1">Ubicacion</h6>
+              <p class="text-white-50 mb-0">Lima, Peru</p>
+            </div>
+          </div>
+
+          <div class="d-flex align-items-start">
+            <div class="flex-shrink-0">
+              <div class="bg-white bg-opacity-10 rounded p-2 d-flex align-items-center justify-content-center" style="width: 44px; height: 44px;">
+                <i data-feather="clock" class="fea icon-sm text-white"></i>
+              </div>
+            </div>
+            <div class="ms-3">
+              <h6 class="text-white mb-1">Horario de atencion</h6>
+              <p class="text-white-50 mb-0">Lunes a Viernes: 9:00 - 18:00<br>Sabados: 9:00 - 13:00</p>
+            </div>
+          </div>
         </div>
-    </div>
 
-    <div class="container-fluid mt-100 mt-60">
-        <div class="row">
-            <div class="col-12 p-0">
-                <div class="card map border-0">
-                    <div class="card-body p-0">
-                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d39206.002432144705!2d-95.4973981212445!3d29.709510002925988!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8640c16de81f3ca5%3A0xf43e0b60ae539ac9!2sGerald+D.+Hines+Waterwall+Park!5e0!3m2!1sen!2sin!4v1566305861440!5m2!1sen!2sin" style="border:0" allowfullscreen></iframe>
-                    </div>
-                </div>
-            </div>
+        <!-- Redes sociales -->
+        <div class="p-4 rounded shadow bg-white mt-4">
+          <h6 class="fw-bold mb-3">Siguenos en redes</h6>
+          <div class="d-flex gap-2">
+            <a href="#" class="btn btn-sm btn-icon btn-soft-primary rounded-pill">
+              <i data-feather="facebook" class="fea icon-sm"></i>
+            </a>
+            <a href="#" class="btn btn-sm btn-icon btn-soft-info rounded-pill">
+              <i data-feather="twitter" class="fea icon-sm"></i>
+            </a>
+            <a href="#" class="btn btn-sm btn-icon btn-soft-danger rounded-pill">
+              <i data-feather="instagram" class="fea icon-sm"></i>
+            </a>
+            <a href="#" class="btn btn-sm btn-icon btn-soft-primary rounded-pill">
+              <i data-feather="linkedin" class="fea icon-sm"></i>
+            </a>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
+
+  <!-- Cards de resumen -->
+  <div class="container mt-100 mt-60">
+    <div class="row g-4">
+      <div class="col-lg-3 col-md-6">
+        <div class="position-relative features text-center p-4 rounded shadow bg-white">
+          <div class="feature-icon bg-soft-primary rounded shadow mx-auto position-relative overflow-hidden d-flex justify-content-center align-items-center">
+            <i data-feather="headphones" class="fea icon-ex-md"></i>
+          </div>
+          <div class="mt-4">
+            <h5 class="mb-2">Soporte rapido</h5>
+            <p class="text-muted mb-0">Respondemos en menos de 24 horas a todas tus consultas.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-6">
+        <div class="position-relative features text-center p-4 rounded shadow bg-white">
+          <div class="feature-icon bg-soft-success rounded shadow mx-auto position-relative overflow-hidden d-flex justify-content-center align-items-center">
+            <i data-feather="shield" class="fea icon-ex-md"></i>
+          </div>
+          <div class="mt-4">
+            <h5 class="mb-2">Datos seguros</h5>
+            <p class="text-muted mb-0">Tu informacion esta protegida con los mas altos estandares.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-6">
+        <div class="position-relative features text-center p-4 rounded shadow bg-white">
+          <div class="feature-icon bg-soft-warning rounded shadow mx-auto position-relative overflow-hidden d-flex justify-content-center align-items-center">
+            <i data-feather="users" class="fea icon-ex-md"></i>
+          </div>
+          <div class="mt-4">
+            <h5 class="mb-2">Equipo dedicado</h5>
+            <p class="text-muted mb-0">Un equipo profesional listo para asesorarte en todo momento.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-6">
+        <div class="position-relative features text-center p-4 rounded shadow bg-white">
+          <div class="feature-icon bg-soft-danger rounded shadow mx-auto position-relative overflow-hidden d-flex justify-content-center align-items-center">
+            <i data-feather="globe" class="fea icon-ex-md"></i>
+          </div>
+          <div class="mt-4">
+            <h5 class="mb-2">Cobertura nacional</h5>
+            <p class="text-muted mb-0">Conectamos empresas y proveedores en todo el Peru.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mapa -->
+  <div class="container-fluid mt-100 mt-60">
+    <div class="row">
+      <div class="col-12 p-0">
+        <div class="card map border-0">
+          <div class="card-body p-0">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d62434.35426150963!2d-77.0627500!3d-12.0463700!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9105c5f619ee3ec7%3A0x14206cb9cc452e4a!2sLima%2C%20Peru!5e0!3m2!1ses!2spe!4v1700000000000!5m2!1ses!2spe"
+              style="border: 0"
+              allowfullscreen
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
-<app-footer/>
-<app-scroll-to-top/>
+
+<app-footer />
+<app-scroll-to-top />

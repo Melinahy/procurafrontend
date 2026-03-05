@@ -1,111 +1,299 @@
 <app-spinner *ngIf="switchingType" message="Cambiando perfil..."></app-spinner>
 
-<header id="topnav" class="defaultscroll sticky" [ngClass]="scroll ? 'nav-sticky' : ''">
-    <div class="container">
-        <a class="logo" [routerLink]="'/job-list-one'">
-            <span class="logo-light-mode">
-                <img [src]="'/assets/images/logo-dark.png'" class="l-dark" alt="">
-                <img [src]="'/assets/images/logo-white.png'" class="l-light" alt="">
-            </span>
-            <img [src]="'/assets/images/logo-white.png'" class="logo-dark-mode" alt="">
+<header
+  id="topnav"
+  class="defaultscroll sticky"
+  [ngClass]="scroll ? 'nav-sticky' : ''"
+>
+  <div class="container">
+    <a class="logo" [routerLink]="'/job-list-one'">
+      <span class="logo-light-mode">
+        <img [src]="'/assets/images/logo-dark.png'" class="l-dark" alt="" />
+        <img [src]="'/assets/images/logo-white.png'" class="l-light" alt="" />
+      </span>
+      <img
+        [src]="'/assets/images/logo-white.png'"
+        class="logo-dark-mode"
+        alt=""
+      />
+    </a>
+
+    <div class="menu-extras">
+      <div class="menu-item">
+        <a
+          [routerLink]="[]"
+          [ngClass]="toggleManu ? 'open' : ''"
+          (click)="toggleMenu()"
+          class="navbar-toggle"
+          id="isToggle"
+        >
+          <div class="lines">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
         </a>
-
-        <div class="menu-extras">
-            <div class="menu-item">
-                <a [routerLink]="[]" [ngClass]="toggleManu ? 'open' : ''" (click)="toggleMenu()" class="navbar-toggle" id="isToggle">
-                    <div class="lines">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </div>
-                </a>
-            </div>
-        </div>
-
-        <ul class="buy-button list-inline mb-0">
-            <!-- Botón "Crear perfil de X" — solo si tiene exactamente UN perfil y falta el otro -->
-            <li class="list-inline-item ps-1 mb-0" *ngIf="missingProfileType">
-                <a [routerLink]="'/create-profile'" [queryParams]="{ type: missingProfileType }"
-                   class="btn btn-sm btn-soft-primary rounded-pill d-flex align-items-center gap-1"
-                   style="font-size: 13px; font-weight: 600; padding: 6px 16px;">
-                    <i data-feather="user-plus" class="fea icon-sm"></i>
-                    Crear perfil de {{ missingProfileType === 'COMPANY' ? 'Empresa' : 'Proveedor' }}
-                </a>
-            </li>
-
-            <li class="list-inline-item ps-1 mb-0">
-                <div class="dropdown" (clickOutside)="onClickedOutside($event)">
-                    <button type="button" class="dropdown-toggle btn btn-sm btn-icon btn-pills btn-primary" type="button" (click)="searchMenu = !searchMenu">
-                        <i data-feather="search" class="icons"></i>
-                    </button>
-                    <div class="dropdown-menu dd-menu dropdown-menu-end bg-white rounded border-0 mt-3 p-0" [ngClass]="searchMenu ? 'show' : ''"  style="width: 240px; right: 0;">
-                        <div class="search-bar">
-                            <div id="itemSearch" class="menu-search mb-0">
-                                <form role="search" method="get" id="searchItemform" class="searchform">
-                                    <input type="text" class="form-control rounded border" name="s" id="searchItem" placeholder="Search...">
-                                    <input type="submit" id="searchItemsubmit" value="Search">
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </li>
-
-            <li class="list-inline-item ps-1 mb-0">
-                <div class="dropdown dropdown-primary" (clickOutside)="onClickedOutside2($event)">
-                    <button type="button" class="dropdown-toggle btn btn-sm btn-icon btn-pills btn-primary" (click)="userMenu = !userMenu">
-                        <img [src]="'/assets/images/team/01.jpg'" class="img-fluid rounded-pill" alt="">
-                    </button>
-                    <div class="dropdown-menu dd-menu dropdown-menu-end bg-white rounded shadow border-0 mt-3" [ngClass]="userMenu ? 'show' : ''" style=" right: 0;">
-                        <a [routerLink]="currentUser?.primaryType === 'COMPANY' ? '/employer-profile' : '/candidate-profile'" class="dropdown-item fw-medium fs-6"><i data-feather="user" class="fea icon-sm me-2 align-middle"></i>Perfil</a>
-                        <a *ngIf="missingProfileType" [routerLink]="'/create-profile'" [queryParams]="{ type: missingProfileType }" class="dropdown-item fw-medium fs-6"><i data-feather="user-plus" class="fea icon-sm me-2 align-middle"></i>Crear perfil de {{ missingProfileType === 'COMPANY' ? 'Empresa' : 'Proveedor' }}</a>
-                        <a [routerLink]="'/candidate-profile-setting'" class="dropdown-item fw-medium fs-6"><i data-feather="settings" class="fea icon-sm me-2 align-middle"></i>Configuración</a>
-                        <button *ngIf="hasBothProfiles" (click)="switchUserType()" [disabled]="switchingType" class="dropdown-item fw-medium fs-6 border-0 bg-transparent w-100 text-start">
-                          <i data-feather="refresh-cw" class="fea icon-sm me-2 align-middle"></i>
-                          <span *ngIf="!switchingType">
-                            Cambiar a {{ currentUser?.primaryType === 'PROVIDER' ? 'Empresa' : 'Proveedor' }}
-                          </span>
-                          <span *ngIf="switchingType">Cambiando...</span>
-                        </button>
-                        <div class="dropdown-divider border-top"></div>
-                        <a [routerLink]="[]" (click)="logout()" class="dropdown-item fw-medium fs-6"><i data-feather="log-out" class="fea icon-sm me-2 align-middle"></i>Salir sesión</a>
-                    </div>
-                </div>
-            </li>
-        </ul>
-
-        <div id="navigation" [ngClass]="toggleManu ? 'd-block' : 'd-none'">
-            <ul class="navigation-menu nav-right nav-light">
-                
-
-                <li class="has-submenu parent-parent-menu-item" [ngClass]="['/job-categories','/job-grid-one','/job-grid-two','/job-grid-three','/job-grid-four','/job-list-one','/job-list-two','/job-detail-one','/job-detail-two','/job-detail-three','/job-apply','/job-post','/career'].includes(manu) ? 'active' : ''"><a [routerLink]="[]" (click)="openManu('/job-item')"> Trabajos </a><span class="menu-arrow"></span>
-                    <ul class="submenu" [ngClass]="['/job-item','/job-grid','/job-list','/job-detail-item'].includes(subManu) ? 'open' : ''">
-                        <li [ngClass]="manu === '/job-categories' ? 'active' : ''"><a [routerLink]="'/job-categories'" class="sub-menu-item">Categorias</a></li>
-                        <li [ngClass]="manu === 'job-list-one' ? 'active' : ''"><a [routerLink]="'/job-list-one'" class="sub-menu-item">Requerimientos</a></li>
-                    </ul>  
-                </li>
-
-                <li [ngClass]="manu === '/employers' ? 'active' : ''">
-                    <a [routerLink]="'/employers'" class="sub-menu-item">Compañias</a>
-                </li>
-
-                <li [ngClass]="manu === '/candidates' ? 'active' : ''">
-                    <a [routerLink]="'/candidates'" class="sub-menu-item">Candidatos</a>
-                </li>
-
-                <li class="has-submenu parent-parent-menu-item" [ngClass]="['/terms','/privacy','/blogs','/blog-sidebar','/blog-detail','/helpcenter-overview','/helpcenter-faqs','/helpcenter-guides','/helpcenter-support','/aboutus','/services','/pricing',].includes(manu) ? 'active' : ''">
-                    <a [routerLink]="[]" (click)="openManu('/page-item')">Paginas</a><span class="menu-arrow"></span>
-                    <ul class="submenu" [ngClass]="['/page-item','/help-item','/blog-item','/auth-item','/utility-item'].includes(subManu) ? 'open' : ''">
-                        <li [ngClass]="manu === '/aboutus' ? 'active' : ''"><a [routerLink]="'/aboutus'" class="sub-menu-item">Sobre Nosotros</a></li>
-                        <li [ngClass]="manu === '/services' ? 'active' : ''"><a [routerLink]="'/services'" class="sub-menu-item">Servicios</a></li>
-                        <li [ngClass]="manu === '/pricing' ? 'active' : ''"><a [routerLink]="'/pricing'" class="sub-menu-item">Precios </a></li>
-
-
-                    </ul>
-                </li>
-        
-                <li [ngClass]="manu === '/contactus' ? 'active' : ''"><a [routerLink]="'/contactus'" class="sub-menu-item">Contact Us</a></li>
-            </ul>
-        </div>
+      </div>
     </div>
+
+    <ul class="buy-button list-inline mb-0">
+      <!-- Botón "Crear perfil de X" — solo si tiene exactamente UN perfil y falta el otro -->
+      <li class="list-inline-item ps-1 mb-0" *ngIf="missingProfileType">
+        <a
+          [routerLink]="'/create-profile'"
+          [queryParams]="{ type: missingProfileType }"
+          class="btn btn-sm btn-soft-primary rounded-pill d-flex align-items-center gap-1"
+          style="font-size: 13px; font-weight: 600; padding: 6px 16px"
+        >
+          <i data-feather="user-plus" class="fea icon-sm"></i>
+          Crear perfil de
+          {{ missingProfileType === "COMPANY" ? "Empresa" : "Proveedor" }}
+        </a>
+      </li>
+
+      <li class="list-inline-item ps-1 mb-0">
+        <div class="dropdown" (clickOutside)="onClickedOutside($event)">
+          <button
+            type="button"
+            class="dropdown-toggle btn btn-sm btn-icon btn-pills btn-primary"
+            type="button"
+            (click)="searchMenu = !searchMenu"
+          >
+            <i data-feather="search" class="icons"></i>
+          </button>
+          <div
+            class="dropdown-menu dd-menu dropdown-menu-end bg-white rounded border-0 mt-3 p-0"
+            [ngClass]="searchMenu ? 'show' : ''"
+            style="width: 240px; right: 0"
+          >
+            <div class="search-bar">
+              <div id="itemSearch" class="menu-search mb-0">
+                <form
+                  role="search"
+                  method="get"
+                  id="searchItemform"
+                  class="searchform"
+                >
+                  <input
+                    type="text"
+                    class="form-control rounded border"
+                    name="s"
+                    id="searchItem"
+                    placeholder="Search..."
+                  />
+                  <input type="submit" id="searchItemsubmit" value="Search" />
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+
+      <li class="list-inline-item ps-1 mb-0">
+        <div
+          class="dropdown dropdown-primary"
+          (clickOutside)="onClickedOutside2($event)"
+        >
+          <button
+            type="button"
+            class="dropdown-toggle btn btn-sm btn-icon btn-pills btn-primary"
+            (click)="userMenu = !userMenu"
+          >
+            <img
+              [src]="'/assets/images/team/01.jpg'"
+              class="img-fluid rounded-pill"
+              alt=""
+            />
+          </button>
+          <div
+            class="dropdown-menu dd-menu dropdown-menu-end bg-white rounded shadow border-0 mt-3"
+            [ngClass]="userMenu ? 'show' : ''"
+            style="right: 0"
+          >
+            <a
+              [routerLink]="
+                currentUser?.primaryType === 'COMPANY'
+                  ? '/employer-profile'
+                  : '/candidate-profile'
+              "
+              class="dropdown-item fw-medium fs-6"
+              ><i data-feather="user" class="fea icon-sm me-2 align-middle"></i
+              >Perfil</a
+            >
+            <a
+              *ngIf="missingProfileType"
+              [routerLink]="'/create-profile'"
+              [queryParams]="{ type: missingProfileType }"
+              class="dropdown-item fw-medium fs-6"
+              ><i
+                data-feather="user-plus"
+                class="fea icon-sm me-2 align-middle"
+              ></i
+              >Crear perfil de
+              {{
+                missingProfileType === "COMPANY" ? "Empresa" : "Proveedor"
+              }}</a
+            >
+            <a
+              [routerLink]="'/candidate-profile-setting'"
+              class="dropdown-item fw-medium fs-6"
+              ><i
+                data-feather="settings"
+                class="fea icon-sm me-2 align-middle"
+              ></i
+              >Configuración</a
+            >
+            <button
+              *ngIf="hasBothProfiles"
+              (click)="switchUserType()"
+              [disabled]="switchingType"
+              class="dropdown-item fw-medium fs-6 border-0 bg-transparent w-100 text-start"
+            >
+              <i
+                data-feather="refresh-cw"
+                class="fea icon-sm me-2 align-middle"
+              ></i>
+              <span *ngIf="!switchingType">
+                Cambiar a
+                {{
+                  currentUser?.primaryType === "PROVIDER"
+                    ? "Empresa"
+                    : "Proveedor"
+                }}
+              </span>
+              <span *ngIf="switchingType">Cambiando...</span>
+            </button>
+            <div class="dropdown-divider border-top"></div>
+            <a
+              [routerLink]="[]"
+              (click)="logout()"
+              class="dropdown-item fw-medium fs-6"
+              ><i
+                data-feather="log-out"
+                class="fea icon-sm me-2 align-middle"
+              ></i
+              >Salir sesión</a
+            >
+          </div>
+        </div>
+      </li>
+    </ul>
+
+    <div id="navigation" [ngClass]="toggleManu ? 'd-block' : 'd-none'">
+      <ul class="navigation-menu nav-right nav-light">
+        <li
+          class="has-submenu parent-parent-menu-item"
+          [ngClass]="
+            [
+              '/job-categories',
+              '/job-grid-one',
+              '/job-grid-two',
+              '/job-grid-three',
+              '/job-grid-four',
+              '/job-list-one',
+              '/job-list-two',
+              '/job-detail-one',
+              '/job-detail-two',
+              '/job-detail-three',
+              '/job-apply',
+              '/job-post',
+              '/career',
+            ].includes(manu)
+              ? 'active'
+              : ''
+          "
+        >
+          <a [routerLink]="[]" (click)="openManu('/job-item')"> Trabajos </a
+          ><span class="menu-arrow"></span>
+          <ul
+            class="submenu"
+            [ngClass]="
+              [
+                '/job-item',
+                '/job-grid',
+                '/job-list',
+                '/job-detail-item',
+              ].includes(subManu)
+                ? 'open'
+                : ''
+            "
+          >
+            <li [ngClass]="manu === '/job-categories' ? 'active' : ''">
+              <a [routerLink]="'/job-categories'" class="sub-menu-item"
+                >Categorias</a
+              >
+            </li>
+            <li [ngClass]="manu === 'job-list-one' ? 'active' : ''">
+              <a [routerLink]="'/job-list-one'" class="sub-menu-item"
+                >Requerimientos</a
+              >
+            </li>
+          </ul>
+        </li>
+
+        <li [ngClass]="manu === '/employers' ? 'active' : ''">
+          <a [routerLink]="'/employers'" class="sub-menu-item">Compañias</a>
+        </li>
+
+        <li [ngClass]="manu === '/candidates' ? 'active' : ''">
+          <a [routerLink]="'/candidates'" class="sub-menu-item">Candidatos</a>
+        </li>
+
+        <li
+          class="has-submenu parent-parent-menu-item"
+          [ngClass]="
+            [
+              '/terms',
+              '/privacy',
+              '/blogs',
+              '/blog-sidebar',
+              '/blog-detail',
+              '/helpcenter-overview',
+              '/helpcenter-faqs',
+              '/helpcenter-guides',
+              '/helpcenter-support',
+              '/aboutus',
+              '/services',
+              '/pricing',
+            ].includes(manu)
+              ? 'active'
+              : ''
+          "
+        >
+          <a [routerLink]="[]" (click)="openManu('/page-item')">Paginas</a
+          ><span class="menu-arrow"></span>
+          <ul
+            class="submenu"
+            [ngClass]="
+              [
+                '/page-item',
+                '/help-item',
+                '/blog-item',
+                '/auth-item',
+                '/utility-item',
+              ].includes(subManu)
+                ? 'open'
+                : ''
+            "
+          >
+            <li [ngClass]="manu === '/aboutus' ? 'active' : ''">
+              <a [routerLink]="'/aboutus'" class="sub-menu-item"
+                >Sobre Nosotros</a
+              >
+            </li>
+            <li [ngClass]="manu === '/services' ? 'active' : ''">
+              <a [routerLink]="'/services'" class="sub-menu-item">Servicios</a>
+            </li>
+            <li [ngClass]="manu === '/pricing' ? 'active' : ''">
+              <a [routerLink]="'/pricing'" class="sub-menu-item">Precios </a>
+            </li>
+          </ul>
+        </li>
+
+        <li [ngClass]="manu === '/contactus' ? 'active' : ''">
+          <a [routerLink]="'/contactus'" class="sub-menu-item">Contacto</a>
+        </li>
+      </ul>
+    </div>
+  </div>
 </header>

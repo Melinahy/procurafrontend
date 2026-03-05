@@ -1,75 +1,180 @@
-    <header id="topnav" class="defaultscroll sticky" [ngClass]="scroll ? 'nav-sticky' : ''">
-        <div class="container">
-            <a class="logo" [routerLink]="'/'">
-                <span lass="logo-light-mode">
-                    <img [src]="'/assets/images/logo-dark.png'" class="l-dark" alt="">
-                    <img [src]="'/assets/images/logo-white.png'" class="l-light" alt="">
-                </span>
-                <img [src]="'/assets/images/logo-white.png'" class="logo-dark-mode" alt="">
-            </a>
+<header
+  id="topnav"
+  class="defaultscroll sticky"
+  [ngClass]="scroll ? 'nav-sticky' : ''"
+>
+  <div class="container">
+    <a class="logo" [routerLink]="'/'">
+      <span lass="logo-light-mode">
+        <img [src]="'/assets/images/logo-dark.png'" class="l-dark" alt="" />
+        <img [src]="'/assets/images/logo-white.png'" class="l-light" alt="" />
+      </span>
+      <img
+        [src]="'/assets/images/logo-white.png'"
+        class="logo-dark-mode"
+        alt=""
+      />
+    </a>
 
-            <div class="menu-extras">
-                <div class="menu-item">
-                    <a [routerLink]="[]" [ngClass]="toggleManu ? 'open' : ''" (click)="toggleMenu()" class="navbar-toggle" id="isToggle">
-                        <div class="lines">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </div>
-                    </a>
-                </div>
-            </div>
+    <div class="menu-extras">
+      <div class="menu-item">
+        <a
+          [routerLink]="[]"
+          [ngClass]="toggleManu ? 'open' : ''"
+          (click)="toggleMenu()"
+          class="navbar-toggle"
+          id="isToggle"
+        >
+          <div class="lines">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </a>
+      </div>
+    </div>
 
-            <ul class="buy-button list-inline mb-0">
-                <li class="list-inline-item ps-1 mb-0">
-                    <a [routerLink]="'/login'" class="btn btn-primary me-2 btn-sm custom-white-border-text">
-                        <font style="vertical-align: inherit;">
-                            <font style="vertical-align: inherit;">Iniciar Sesión</font>
-                        </font>
-                    </a>
+    <ul class="buy-button list-inline mb-0">
+      <li class="list-inline-item ps-1 mb-0">
+        <a
+          [routerLink]="'/login'"
+          class="btn btn-primary me-2 btn-sm custom-white-border-text"
+        >
+          <font style="vertical-align: inherit">
+            <font style="vertical-align: inherit">Iniciar Sesión</font>
+          </font>
+        </a>
 
-                    <a [routerLink]="'/signup'" class="btn btn-primary btn-sm custom-white-border-text">
-                        <font style="vertical-align: inherit;">
-                            <font style="vertical-align: inherit;">Registrarse</font>
-                        </font>
-                    </a>
-                </li>
-            </ul>
+        <a
+          [routerLink]="'/signup'"
+          class="btn btn-primary btn-sm custom-white-border-text"
+        >
+          <font style="vertical-align: inherit">
+            <font style="vertical-align: inherit">Registrarse</font>
+          </font>
+        </a>
+      </li>
+    </ul>
 
-            <div id="navigation"  class="collapse navbar-collapse" [ngClass]="toggleManu ? 'd-block' : 'd-none'">
-                <ul class="navigation-menu nav-right nav-light">
-                    <li [ngClass]="manu === '/' ? 'active' : ''">
-                        <a [routerLink]="'/'" class="sub-menu-item">Home</a>
-                    </li>
+    <div
+      id="navigation"
+      class="collapse navbar-collapse"
+      [ngClass]="toggleManu ? 'd-block' : 'd-none'"
+    >
+      <ul class="navigation-menu nav-right nav-light">
+        <li [ngClass]="manu === '/' ? 'active' : ''">
+          <a [routerLink]="'/'" class="sub-menu-item">Home</a>
+        </li>
 
-                    <li class="has-submenu parent-parent-menu-item" [ngClass]="['/job-categories','/job-grid-one','/job-grid-two','/job-grid-three','/job-grid-four','/job-list-one','/job-list-two','/job-detail-one','/job-detail-two','/job-detail-three','/job-apply','/job-post','/career'].includes(manu) ? 'active' : ''"><a [routerLink]="[]" (click)="openManu('/job-item')"> Trabajos </a><span class="menu-arrow"></span>
-                        <ul class="submenu" [ngClass]="['/job-item','/job-grid','/job-list','/job-detail-item'].includes(subManu) ? 'open' : ''">
-                            <li [ngClass]="manu === '/job-categories' ? 'active' : ''"><a [routerLink]="'/job-categories'" class="sub-menu-item">Categorias</a></li>
-                            <li [ngClass]="manu === 'job-list-one' ? 'active' : ''"><a [routerLink]="'/job-list-one'" class="sub-menu-item">Requerimientos</a></li>
-                        </ul>  
-                    </li>
-            
-                    <li [ngClass]="manu === '/employers' ? 'active' : ''">
-                        <a [routerLink]="'/employers'" class="sub-menu-item">Compañias</a>
-                    </li>
+        <li
+          class="has-submenu parent-parent-menu-item"
+          [ngClass]="
+            [
+              '/job-categories',
+              '/job-grid-one',
+              '/job-grid-two',
+              '/job-grid-three',
+              '/job-grid-four',
+              '/job-list-one',
+              '/job-list-two',
+              '/job-detail-one',
+              '/job-detail-two',
+              '/job-detail-three',
+              '/job-apply',
+              '/job-post',
+              '/career',
+            ].includes(manu)
+              ? 'active'
+              : ''
+          "
+        >
+          <a [routerLink]="[]" (click)="openManu('/job-item')"> Trabajos </a
+          ><span class="menu-arrow"></span>
+          <ul
+            class="submenu"
+            [ngClass]="
+              [
+                '/job-item',
+                '/job-grid',
+                '/job-list',
+                '/job-detail-item',
+              ].includes(subManu)
+                ? 'open'
+                : ''
+            "
+          >
+            <li [ngClass]="manu === '/job-categories' ? 'active' : ''">
+              <a [routerLink]="'/job-categories'" class="sub-menu-item"
+                >Categorias</a
+              >
+            </li>
+            <li [ngClass]="manu === 'job-list-one' ? 'active' : ''">
+              <a [routerLink]="'/job-list-one'" class="sub-menu-item"
+                >Requerimientos</a
+              >
+            </li>
+          </ul>
+        </li>
 
-                    <li [ngClass]="manu === '/candidates' ? 'active' : ''">
-                        <a [routerLink]="'/candidates'" class="sub-menu-item">Candidatos</a>
-                    </li>
-            
-                    <li class="has-submenu parent-parent-menu-item" [ngClass]="['/terms','/privacy','/blogs','/blog-sidebar','/blog-detail','/helpcenter-overview','/helpcenter-faqs','/helpcenter-guides','/helpcenter-support','/aboutus','/services','/pricing',].includes(manu) ? 'active' : ''">
-                        <a [routerLink]="[]" (click)="openManu('/page-item')">Pages</a><span class="menu-arrow"></span>
-                        <ul class="submenu" [ngClass]="['/page-item','/help-item','/blog-item','/auth-item','/utility-item'].includes(subManu) ? 'open' : ''">
-                            <li [ngClass]="manu === '/aboutus' ? 'active' : ''"><a [routerLink]="'/aboutus'" class="sub-menu-item">Sobre Nosotros</a></li>
-                            <li [ngClass]="manu === '/services' ? 'active' : ''"><a [routerLink]="'/services'" class="sub-menu-item">Servicios</a></li>
-                            <li [ngClass]="manu === '/pricing' ? 'active' : ''"><a [routerLink]="'/pricing'" class="sub-menu-item">Precios </a></li>
+        <li [ngClass]="manu === '/employers' ? 'active' : ''">
+          <a [routerLink]="'/employers'" class="sub-menu-item">Compañias</a>
+        </li>
 
+        <li [ngClass]="manu === '/candidates' ? 'active' : ''">
+          <a [routerLink]="'/candidates'" class="sub-menu-item">Candidatos</a>
+        </li>
 
-                        </ul>
-                    </li>
-            
-                    
-                </ul>
-            </div>
-        </div>
-    </header>
+        <li
+          class="has-submenu parent-parent-menu-item"
+          [ngClass]="
+            [
+              '/terms',
+              '/privacy',
+              '/blogs',
+              '/blog-sidebar',
+              '/blog-detail',
+              '/helpcenter-overview',
+              '/helpcenter-faqs',
+              '/helpcenter-guides',
+              '/helpcenter-support',
+              '/aboutus',
+              '/services',
+              '/pricing',
+            ].includes(manu)
+              ? 'active'
+              : ''
+          "
+        >
+          <a [routerLink]="[]" (click)="openManu('/page-item')">Páginas</a
+          ><span class="menu-arrow"></span>
+          <ul
+            class="submenu"
+            [ngClass]="
+              [
+                '/page-item',
+                '/help-item',
+                '/blog-item',
+                '/auth-item',
+                '/utility-item',
+              ].includes(subManu)
+                ? 'open'
+                : ''
+            "
+          >
+            <li [ngClass]="manu === '/aboutus' ? 'active' : ''">
+              <a [routerLink]="'/aboutus'" class="sub-menu-item"
+                >Sobre Nosotros</a
+              >
+            </li>
+            <li [ngClass]="manu === '/services' ? 'active' : ''">
+              <a [routerLink]="'/services'" class="sub-menu-item">Servicios</a>
+            </li>
+            <li [ngClass]="manu === '/pricing' ? 'active' : ''">
+              <a [routerLink]="'/pricing'" class="sub-menu-item">Precios </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</header>
