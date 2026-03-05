@@ -49,20 +49,12 @@
                         </ul>  
                     </li>
             
-                    <li class="has-submenu parent-menu-item" [ngClass]="['/employers','/employer-profile'].includes(manu) ? 'active' : ''">
-                        <a [routerLink]="[]" (click)="openManu('/employer-item')">Compañias</a><span class="menu-arrow"></span>
-                        <ul class="submenu" [ngClass]="['/employer-item'].includes(subManu) ? 'open' : ''">
-                            <li [ngClass]="manu === '/employers' ? 'active' : ''"><a [routerLink]="'/employers'" class="sub-menu-item">Compañias</a></li>
-                            <li [ngClass]="manu === '/employer-profile' ? 'active' : ''"><a [routerLink]="'/employer-profile'" class="sub-menu-item">Perfil Compañias</a></li>
-                        </ul>
+                    <li [ngClass]="manu === '/employers' ? 'active' : ''">
+                        <a [routerLink]="'/employers'" class="sub-menu-item">Compañias</a>
                     </li>
 
-            
-                    <li class="has-submenu parent-menu-item" [ngClass]="['/candidates','/candidate-profile','/candidate-profile-setting'].includes(manu) ? 'active' : ''">
-                        <a [routerLink]="[]" (click)="openManu('/candidate-item')">Candidatos</a><span class="menu-arrow"></span>
-                        <ul class="submenu" [ngClass]="['/candidate-item'].includes(subManu) ? 'open' : ''">
-                            <li [ngClass]="manu === '/candidates' ? 'active' : ''"><a [routerLink]="'/candidates'" class="sub-menu-item">Candidatos</a></li>
-                        </ul>
+                    <li [ngClass]="manu === '/candidates' ? 'active' : ''">
+                        <a [routerLink]="'/candidates'" class="sub-menu-item">Candidatos</a>
                     </li>
             
                     <li class="has-submenu parent-parent-menu-item" [ngClass]="['/terms','/privacy','/blogs','/blog-sidebar','/blog-detail','/helpcenter-overview','/helpcenter-faqs','/helpcenter-guides','/helpcenter-support','/aboutus','/services','/pricing',].includes(manu) ? 'active' : ''">
