@@ -5,25 +5,31 @@ import { environment } from '../../environments/environments';
 import { ApiResponse } from '../models/user.model';
 
 export interface ProviderProfile {
+  id?: number;
+  userId?: number;
   providerName: string;
   description: string;
   specialty: string;
   services: string;
   experienceYears: number | null;
+  certifications?: string;
+  rating?: number;
+  totalReviews?: number;
+  logo?: string;
+  website?: string;
+  address?: string;
   city: string;
   country: string;
   contactEmail: string;
   contactPhone: string;
   hourlyRate: number | null;
   isAvailable: boolean;
-  workersCount: number | null;
-  whatsappNumber: string;
   brochureUrl: string;
-  certifications?: string;
-  logo?: string;
-  website?: string;
-  address?: string;
+  whatsappNumber: string;
+  workersCount: number | null;
+  applicationsCount?: number;
   clientsList?: string;
+  associatedCompanyIds?: string;
 }
 
 @Injectable({
@@ -36,6 +42,14 @@ export class ProviderService {
 
   create(data: ProviderProfile): Observable<ApiResponse<any>> {
     return this.http.post<ApiResponse<any>>(this.apiUrl, data);
+  }
+
+  getAll(): Observable<ApiResponse<ProviderProfile[]>> {
+    return this.http.get<ApiResponse<ProviderProfile[]>>(this.apiUrl);
+  }
+
+  getById(id: number): Observable<ApiResponse<ProviderProfile>> {
+    return this.http.get<ApiResponse<ProviderProfile>>(`${this.apiUrl}/${id}`);
   }
 
   getMyProfile(): Observable<ApiResponse<ProviderProfile>> {

@@ -2,35 +2,43 @@
 
 <app-spinner *ngIf="loading" message="Cargando perfil..."></app-spinner>
 
+<section class="bg-half-170 d-table w-100" style="background: url('/assets/images/hero/bg5.jpg');" *ngIf="!loading && provider">
+    <div class="bg-overlay bg-gradient-overlay"></div>
+</section>
+
 <section class="section" *ngIf="!loading">
     <div class="container" *ngIf="error">
         <div class="alert alert-danger text-center">{{ error }}</div>
     </div>
 
     <div class="container" *ngIf="provider">
+        <!-- Header del perfil -->
         <div class="row">
             <div class="col-12">
-                <div class="position-relative">
-                    <div class="candidate-cover">
-                        <img [src]="'/assets/images/hero/bg5.jpg'" class="img-fluid rounded shadow" alt="">
+                <div class="candidate-profile d-flex align-items-end justify-content-between mx-2" style="margin-top: -80px; position: relative; z-index: 2;">
+                    <div class="d-flex align-items-end">
+                        <img *ngIf="provider.logo" [src]="provider.logo"
+                             class="rounded-pill shadow border border-3 bg-white avatar avatar-medium" alt="">
+                        <div *ngIf="!provider.logo"
+                             class="rounded-pill shadow border border-3 bg-primary avatar avatar-medium d-flex align-items-center justify-content-center"
+                             style="color: white; font-weight: 700; font-size: 24px; width: 80px; height: 80px;">
+                            {{ getInitials(provider.providerName) }}
+                        </div>
+                        <div class="ms-3">
+                            <h4 class="mb-0 text-white">{{ provider.providerName }}</h4>
+                            <p class="text-white-50 mb-0">{{ provider.specialty }}</p>
+                        </div>
                     </div>
-                    <div class="candidate-profile d-flex align-items-end justify-content-between mx-2">
-                        <div class="d-flex align-items-end">
-                            <img [src]="provider.logo || '/assets/images/team/01.jpg'"
-                                 class="rounded-pill shadow border border-3 avatar avatar-medium" alt="">
-                            <div class="ms-2">
-                                <h5 class="mb-0">{{ provider.providerName }}</h5>
-                                <p class="text-muted mb-0">{{ provider.specialty }}</p>
-                            </div>
-                        </div>
-                        <div class="d-flex gap-2 align-items-center">
-                            <span class="badge" [ngClass]="provider.isAvailable ? 'bg-success' : 'bg-secondary'">
-                                {{ provider.isAvailable ? 'Disponible' : 'No disponible' }}
-                            </span>
-                            <a [routerLink]="'/candidate-profile-edit'" class="btn btn-sm btn-primary">
-                                <i data-feather="edit" class="fea icon-sm me-1"></i>Editar
-                            </a>
-                        </div>
+                    <div class="d-flex gap-2 align-items-center">
+                        <span class="badge" [ngClass]="provider.isAvailable ? 'bg-success' : 'bg-secondary'">
+                            {{ provider.isAvailable ? 'Disponible' : 'No disponible' }}
+                        </span>
+                        <span class="badge bg-warning text-dark" *ngIf="provider.rating">
+                            <i class="mdi mdi-star me-1"></i>{{ provider.rating }} ({{ provider.totalReviews || 0 }})
+                        </span>
+                        <a *ngIf="isOwnProfile" [routerLink]="'/candidate-profile-edit'" class="btn btn-sm btn-primary">
+                            <i data-feather="edit" class="fea icon-sm me-1"></i>Editar
+                        </a>
                     </div>
                 </div>
             </div>
@@ -39,10 +47,12 @@
         <div class="row g-4 mt-2">
             <!-- Columna principal -->
             <div class="col-lg-8 col-md-7 col-12">
-                <h5 class="mb-3">Descripción</h5>
-                <p class="text-muted">{{ provider.description || 'Sin descripción disponible.' }}</p>
+                <div class="p-4 rounded shadow bg-white mb-4">
+                    <h5 class="mb-3">Descripcion</h5>
+                    <p class="text-muted">{{ provider.description || 'Sin descripcion disponible.' }}</p>
+                </div>
 
-                <div class="row g-3 mt-2" *ngIf="provider.services || provider.specialty">
+                <div class="row g-3 mb-4">
                     <div class="col-md-6" *ngIf="provider.specialty">
                         <div class="p-3 rounded shadow bg-white">
                             <h6 class="mb-1"><i data-feather="star" class="fea icon-sm text-primary me-1"></i>Especialidad</h6>
@@ -69,7 +79,29 @@
                     </div>
                 </div>
 
-                <div class="mt-4 p-4 rounded shadow bg-white" *ngIf="provider.brochureUrl">
+                <!-- Estadisticas -->
+                <div class="row g-3 mb-4" *ngIf="provider.applicationsCount || provider.totalReviews || provider.workersCount">
+                    <div class="col-md-4" *ngIf="provider.applicationsCount">
+                        <div class="p-3 rounded shadow bg-white text-center">
+                            <h3 class="text-primary mb-1">{{ provider.applicationsCount }}</h3>
+                            <p class="text-muted small mb-0">Postulaciones</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4" *ngIf="provider.totalReviews">
+                        <div class="p-3 rounded shadow bg-white text-center">
+                            <h3 class="text-primary mb-1">{{ provider.totalReviews }}</h3>
+                            <p class="text-muted small mb-0">Resenas</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4" *ngIf="provider.workersCount">
+                        <div class="p-3 rounded shadow bg-white text-center">
+                            <h3 class="text-primary mb-1">{{ provider.workersCount }}</h3>
+                            <p class="text-muted small mb-0">Trabajadores</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-4 rounded shadow bg-white" *ngIf="provider.brochureUrl">
                     <h5 class="mb-3">Brochure</h5>
                     <a [href]="provider.brochureUrl" target="_blank" class="btn btn-sm btn-primary">
                         <i data-feather="download" class="fea icon-sm me-1"></i>Descargar brochure
@@ -80,7 +112,7 @@
             <!-- Sidebar -->
             <div class="col-lg-4 col-md-5 col-12">
                 <div class="card bg-light p-4 rounded shadow sticky-bar">
-                    <h5 class="mb-3">Información de contacto</h5>
+                    <h5 class="mb-3">Informacion de contacto</h5>
 
                     <div class="d-flex align-items-center mt-2" *ngIf="provider.contactEmail">
                         <i data-feather="mail" class="fea icon-sm text-primary me-2"></i>
@@ -93,7 +125,7 @@
                     <div class="d-flex align-items-center mt-2" *ngIf="provider.contactPhone">
                         <i data-feather="phone" class="fea icon-sm text-primary me-2"></i>
                         <div>
-                            <span class="text-muted fw-medium d-block" style="font-size:12px">Teléfono</span>
+                            <span class="text-muted fw-medium d-block" style="font-size:12px">Telefono</span>
                             <span>{{ provider.contactPhone }}</span>
                         </div>
                     </div>
@@ -109,7 +141,7 @@
                     <div class="d-flex align-items-center mt-2" *ngIf="provider.address">
                         <i data-feather="home" class="fea icon-sm text-primary me-2"></i>
                         <div>
-                            <span class="text-muted fw-medium d-block" style="font-size:12px">Dirección</span>
+                            <span class="text-muted fw-medium d-block" style="font-size:12px">Direccion</span>
                             <span>{{ provider.address }}</span>
                         </div>
                     </div>
@@ -127,7 +159,7 @@
 
                     <div class="d-flex justify-content-between mt-2" *ngIf="provider.experienceYears">
                         <span class="text-muted fw-medium">Experiencia</span>
-                        <span>{{ provider.experienceYears }} años</span>
+                        <span>{{ provider.experienceYears }} anios</span>
                     </div>
 
                     <div class="d-flex justify-content-between mt-2" *ngIf="provider.workersCount">
@@ -140,14 +172,26 @@
                         <span>$ {{ provider.hourlyRate }}</span>
                     </div>
 
-                    <div class="d-flex justify-content-between mt-2">
+                    <div class="d-flex justify-content-between mt-2" *ngIf="provider.city">
                         <span class="text-muted fw-medium">Ciudad</span>
                         <span>{{ provider.city }}</span>
                     </div>
 
-                    <div class="d-flex justify-content-between mt-2">
-                        <span class="text-muted fw-medium">País</span>
+                    <div class="d-flex justify-content-between mt-2" *ngIf="provider.country">
+                        <span class="text-muted fw-medium">Pais</span>
                         <span>{{ provider.country }}</span>
+                    </div>
+
+                    <!-- Botones de contacto para perfiles ajenos -->
+                    <div class="mt-4" *ngIf="!isOwnProfile">
+                        <a *ngIf="provider.whatsappNumber" [href]="'https://wa.me/' + provider.whatsappNumber" target="_blank"
+                           class="btn btn-success w-100 mb-2">
+                            <i data-feather="message-circle" class="fea icon-sm me-1"></i>Contactar por WhatsApp
+                        </a>
+                        <a *ngIf="provider.contactEmail" [href]="'mailto:' + provider.contactEmail"
+                           class="btn btn-soft-primary w-100">
+                            <i data-feather="mail" class="fea icon-sm me-1"></i>Enviar correo
+                        </a>
                     </div>
                 </div>
             </div>
