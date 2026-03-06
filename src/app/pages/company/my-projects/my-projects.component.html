@@ -1,0 +1,63 @@
+<app-spinner *ngIf="loading" message="Cargando proyectos..."></app-spinner>
+
+<app-navbar />
+
+<section class="mgmt-page">
+  <div class="mgmt-container">
+
+    <div class="mgmt-header">
+      <div>
+        <h1>Mis Requerimientos</h1>
+        <p>Gestiona los proyectos que has publicado</p>
+      </div>
+      <a [routerLink]="'/project-form'" class="btn-primary-action">
+        + Nuevo requerimiento
+      </a>
+    </div>
+
+    <div class="alert-error" *ngIf="error">{{ error }}</div>
+
+    <div class="empty-state" *ngIf="!loading && projects.length === 0 && !error">
+      <span class="empty-icon">📋</span>
+      <h4>No tienes requerimientos publicados</h4>
+      <p>Crea tu primer requerimiento para recibir ofertas de proveedores.</p>
+      <a [routerLink]="'/project-form'" class="btn-primary-action">Crear requerimiento</a>
+    </div>
+
+    <div class="projects-list" *ngIf="!loading && projects.length > 0">
+      <div class="project-card" *ngFor="let p of projects">
+        <div class="project-main">
+          <div class="project-title-row">
+            <h4>{{ p.title }}</h4>
+            <span class="status-badge" [ngClass]="statusClass(p.status)">{{ statusLabel(p.status) }}</span>
+          </div>
+          <p class="project-desc">{{ p.description }}</p>
+          <div class="project-meta">
+            <span *ngIf="p.category"><i>📂</i> {{ categoryLabel(p.category) }}</span>
+            <span *ngIf="p.location"><i>📍</i> {{ p.location }}</span>
+            <span *ngIf="p.budgetMin || p.budgetMax">
+              <i>💰</i>
+              S/ {{ p.budgetMin | number }} – {{ p.budgetMax | number }}
+            </span>
+            <span *ngIf="p.deadline"><i>📅</i> {{ p.deadline }}</span>
+          </div>
+        </div>
+        <div class="project-actions">
+          <button class="btn-action btn-bids" (click)="viewBids(p)">
+            <i>👥</i> Ver postulantes
+          </button>
+          <button class="btn-action btn-edit" (click)="edit(p)">
+            <i>✏️</i> Editar
+          </button>
+          <button class="btn-action btn-delete" (click)="deleteProject(p)"
+            [disabled]="deletingId === p.id">
+            <i>🗑️</i> Eliminar
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<app-scroll-to-top />

@@ -86,7 +86,31 @@ export const routes: Routes = [
     path: 'candidate-profile-edit',
     loadComponent: () => import('./pages/candidate/candidate-profile-edit/candidate-profile-edit.component').then(c => c.CandidateProfileEditComponent)
   },
-  
+
+  // Gestión de proyectos (empresa)
+  {
+    path: 'my-projects',
+    loadComponent: () => import('./pages/company/my-projects/my-projects.component').then(c => c.MyProjectsComponent)
+  },
+  {
+    path: 'project-form',
+    loadComponent: () => import('./pages/company/project-form/project-form.component').then(c => c.ProjectFormComponent)
+  },
+  {
+    path: 'project-form/:id',
+    loadComponent: () => import('./pages/company/project-form/project-form.component').then(c => c.ProjectFormComponent)
+  },
+  {
+    path: 'project-bids/:id',
+    loadComponent: () => import('./pages/company/project-bids/project-bids.component').then(c => c.ProjectBidsComponent)
+  },
+
+  // Gestión de ofertas (proveedor)
+  {
+    path: 'my-bids',
+    loadComponent: () => import('./pages/provider/my-bids/my-bids.component').then(c => c.MyBidsComponent)
+  },
+
   // Páginas informativas
   {
     path: 'aboutus', 

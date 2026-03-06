@@ -1,0 +1,124 @@
+<app-spinner *ngIf="loading || saving" [message]="spinnerMsg"></app-spinner>
+
+<app-navbar />
+
+<section class="edit-page">
+  <div class="edit-container">
+
+    <div class="edit-header">
+      <button class="btn-back" (click)="goBack()">← Volver</button>
+      <h1>{{ isEdit ? 'Editar requerimiento' : 'Nuevo requerimiento' }}</h1>
+      <p>{{ isEdit ? 'Modifica los datos del proyecto' : 'Publica un nuevo requerimiento para recibir ofertas' }}</p>
+    </div>
+
+    <div class="settings-card">
+      <div class="alert-success" *ngIf="successMsg">{{ successMsg }}</div>
+      <div class="alert-error"   *ngIf="errorMsg">{{ errorMsg }}</div>
+
+      <form (ngSubmit)="onSave()">
+
+        <div class="form-row single">
+          <div class="form-group">
+            <label>Título del requerimiento *</label>
+            <div class="input-wrap">
+              <span class="input-icon">📋</span>
+              <input type="text" placeholder="Ej: Instalación eléctrica industrial"
+                [(ngModel)]="project.title" name="title" required />
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row single">
+          <div class="form-group">
+            <label>Descripción *</label>
+            <textarea rows="4" placeholder="Describe el trabajo a realizar, condiciones..."
+              [(ngModel)]="project.description" name="description" required></textarea>
+          </div>
+        </div>
+
+        <div class="form-row single">
+          <div class="form-group">
+            <label>Requisitos</label>
+            <textarea rows="3" placeholder="Lista los requisitos mínimos del proveedor..."
+              [(ngModel)]="project.requirements" name="requirements"></textarea>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group" [class.single]="!isEdit">
+            <label>Categoría *</label>
+            <select [(ngModel)]="project.category" name="category" required>
+              <option value="" disabled>Selecciona una categoría...</option>
+              <option *ngFor="let opt of categoryOptions" [value]="opt.value">{{ opt.label }}</option>
+            </select>
+          </div>
+          <div class="form-group" *ngIf="isEdit">
+            <label>Estado</label>
+            <select [(ngModel)]="project.status" name="status">
+              <option *ngFor="let opt of statusOptions" [value]="opt.value">{{ opt.label }}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Presupuesto mínimo (S/)</label>
+            <div class="input-wrap">
+              <span class="input-icon">💰</span>
+              <input type="number" placeholder="5000"
+                [(ngModel)]="project.budgetMin" name="budgetMin" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Presupuesto máximo (S/)</label>
+            <div class="input-wrap">
+              <span class="input-icon">💰</span>
+              <input type="number" placeholder="15000"
+                [(ngModel)]="project.budgetMax" name="budgetMax" />
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Ubicación</label>
+            <div class="input-wrap">
+              <span class="input-icon">📍</span>
+              <input type="text" placeholder="Lima, Perú"
+                [(ngModel)]="project.location" name="location" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Fecha límite</label>
+            <div class="input-wrap">
+              <span class="input-icon">📅</span>
+              <input type="date" [(ngModel)]="project.deadline" name="deadline" />
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row single">
+          <div class="form-group">
+            <label>URL de adjunto / brochure</label>
+            <div class="input-wrap">
+              <span class="input-icon">📎</span>
+              <input type="url" placeholder="https://empresa.com/documento.pdf"
+                [(ngModel)]="project.attachmentUrl" name="attachmentUrl" />
+            </div>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn-secondary-action" (click)="goBack()" [disabled]="saving">Cancelar</button>
+          <button type="submit" class="btn-primary-action" [disabled]="saving">
+            {{ isEdit ? 'Guardar cambios' : 'Publicar requerimiento' }}
+          </button>
+        </div>
+
+      </form>
+    </div>
+
+  </div>
+</section>
+
+<app-scroll-to-top />

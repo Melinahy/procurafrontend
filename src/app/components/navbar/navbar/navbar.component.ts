@@ -4,6 +4,8 @@ import { Router, RouterLink } from '@angular/router';
 import * as feather from 'feather-icons'
 import {NgClickOutsideDirective} from 'ng-click-outside2';
 import { AuthService } from '../../../services/auth.service';
+import { CompanyService } from '../../../services/company.service';
+import { ProviderService } from '../../../services/provider.service';
 import { User } from '../../../models/user.model';
 import { SpinnerComponent } from '../../spinner/spinner.component';
 
@@ -35,10 +37,13 @@ export class NavbarComponent {
   hasBothProfiles = false;
   switchingType = false;
   currentUser: User | null = null;
+  profilePhoto = '';
 
   constructor(
     private router: Router,
     private authService: AuthService,
+    private companyService: CompanyService,
+    private providerService: ProviderService,
   ) {}
 
   ngOnInit() {
@@ -47,14 +52,12 @@ export class NavbarComponent {
     this.subManu = current
     window.scrollTo(0, 0);
 
-    // Suscribirse al estado del usuario
     this.authService.currentUser$.subscribe(user => {
       this.currentUser = user;
       this.isLoggedIn = this.authService.isLoggedIn();
-      // needsProfile: sin ningún perfil (para el botón de header global)
       this.needsProfile = this.isLoggedIn && !!user && !user.hasCompanyProfile && !user.hasProviderProfile;
       this.hasBothProfiles = !!user?.hasCompanyProfile && !!user?.hasProviderProfile;
-      // Tipo de perfil faltante cuando tiene exactamente uno
+
       if (user && user.hasProviderProfile && !user.hasCompanyProfile) {
         this.missingProfileType = 'COMPANY';
       } else if (user && user.hasCompanyProfile && !user.hasProviderProfile) {
@@ -62,7 +65,28 @@ export class NavbarComponent {
       } else {
         this.missingProfileType = null;
       }
+
+      // Load profile photo
+      if (user && this.isLoggedIn) {
+        this.loadProfilePhoto(user);
+      } else {
+        this.profilePhoto = '';
+      }
     });
+  }
+
+  private loadProfilePhoto(user: User): void {
+    if (user.primaryType === 'COMPANY' || user.hasCompanyProfile) {
+      this.companyService.getMyProfile().subscribe({
+        next: (res) => { this.profilePhoto = res.data?.logo || ''; },
+        error: () => { this.profilePhoto = ''; }
+      });
+    } else if (user.primaryType === 'PROVIDER' || user.hasProviderProfile) {
+      this.providerService.getMyProfile().subscribe({
+        next: (res) => { this.profilePhoto = res.data?.logo || ''; },
+        error: () => { this.profilePhoto = ''; }
+      });
+    }
   }
 
   openManu(item:string){
@@ -76,7 +100,7 @@ export class NavbarComponent {
   scroll:boolean = false
 
   @HostListener("window:scroll",['event'])
-  
+
   onhandlerScroll(){
     if (window.scrollY > 0) {
       this.scroll = true
@@ -105,6 +129,7 @@ export class NavbarComponent {
     this.authService.updateUserType(target).subscribe({
       next: () => {
         this.switchingType = false;
+        this.loadProfilePhoto(this.currentUser!);
         this.router.navigate(['/job-list-one']);
       },
       error: () => { this.switchingType = false; }
@@ -113,6 +138,7 @@ export class NavbarComponent {
 
   logout(): void {
     this.authService.logout();
+    this.profilePhoto = '';
     this.router.navigate(['/login']);
   }
 }

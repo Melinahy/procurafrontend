@@ -1,0 +1,62 @@
+<app-spinner *ngIf="loading" message="Cargando postulantes..."></app-spinner>
+
+<app-navbar />
+
+<section class="mgmt-page">
+  <div class="mgmt-container">
+
+    <div class="mgmt-header">
+      <div>
+        <a [routerLink]="'/my-projects'" class="btn-back">← Volver a mis proyectos</a>
+        <h1>Postulantes</h1>
+        <p *ngIf="project">{{ project.title }}</p>
+      </div>
+    </div>
+
+    <div class="alert-success" *ngIf="successMsg">{{ successMsg }}</div>
+    <div class="alert-error"   *ngIf="error">{{ error }}</div>
+
+    <div class="empty-state" *ngIf="!loading && bids.length === 0 && !error">
+      <span class="empty-icon">📭</span>
+      <h4>Sin postulantes aún</h4>
+      <p>Cuando los proveedores envíen ofertas aparecerán aquí.</p>
+    </div>
+
+    <div class="bids-list" *ngIf="!loading && bids.length > 0">
+      <div class="bid-card" *ngFor="let bid of bids">
+
+        <div class="bid-provider">
+          <div class="provider-avatar">{{ (bid.providerName || '?')[0].toUpperCase() }}</div>
+          <div>
+            <h5>{{ bid.providerName || 'Proveedor' }}</h5>
+            <span class="provider-spec">{{ bid.providerSpecialty }}</span>
+          </div>
+        </div>
+
+        <div class="bid-info">
+          <div class="bid-amount">S/ {{ bid.amount | number }}</div>
+          <div class="bid-days" *ngIf="bid.estimatedDays">{{ bid.estimatedDays }} días</div>
+        </div>
+
+        <div class="bid-proposal">
+          <p>{{ bid.proposal }}</p>
+          <span class="status-badge" [ngClass]="statusClass(bid.status)">{{ statusLabel(bid.status) }}</span>
+        </div>
+
+        <div class="bid-actions">
+          <button class="btn-action btn-view" (click)="viewProvider(bid)">Ver perfil</button>
+          <ng-container *ngIf="bid.status === 'PENDING'">
+            <button class="btn-action btn-accept" (click)="acceptBid(bid)"
+              [disabled]="actionLoading === bid.id">Aceptar</button>
+            <button class="btn-action btn-reject" (click)="rejectBid(bid)"
+              [disabled]="actionLoading === bid.id">Rechazar</button>
+          </ng-container>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<app-scroll-to-top />

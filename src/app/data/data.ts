@@ -605,43 +605,43 @@ export const candidateData = [
 export const aboutData = [
     {
         icon:'phone',
-        title:'24/7 Support',
-        desc:'Many desktop publishing now use and a search for job.'
+        title:'Soporte 24/7',
+        desc:'Nuestro equipo está disponible para ayudarte en cualquier momento del día.'
     },
     {
         icon:'cpu',
-        title:'Tech & Startup Jobs',
-        desc:'Many desktop publishing now use and a search for job.'
+        title:'Tecnología e Industria',
+        desc:'Conectamos empresas con proveedores especializados en múltiples sectores industriales.'
     },
     {
         icon:'activity',
-        title:'Quick & Easy',
-        desc:'Many desktop publishing now use and a search for job.'
+        title:'Rápido y Sencillo',
+        desc:'Publica tus requerimientos o postula a proyectos en cuestión de minutos.'
     },
     {
         icon:'clock',
-        title:'Save Time',
-        desc:'Many desktop publishing now use and a search for job.'
+        title:'Ahorra Tiempo',
+        desc:'Encuentra al proveedor ideal sin largas búsquedas ni procesos complicados.'
     },
     {
         icon:'file-text',
-        title:'Apply with confidence',
-        desc:'Many desktop publishing now use and a search for job.'
+        title:'Postula con Confianza',
+        desc:'Perfiles verificados y requerimientos detallados para decisiones más seguras.'
     },
     {
         icon:'codesandbox',
-        title:'Reduce Hiring Bias',
-        desc:'Many desktop publishing now use and a search for job.'
+        title:'Proceso Transparente',
+        desc:'Gestiona ofertas y proyectos con total visibilidad del proceso de selección.'
     },
     {
         icon:'users',
-        title:'Proactive Employers',
-        desc:'Many desktop publishing now use and a search for job.'
+        title:'Empresas Activas',
+        desc:'Red de empresas que buscan activamente proveedores calificados en Perú.'
     },
     {
         icon:'user-check',
-        title:'No Missed Opportunities',
-        desc:'Many desktop publishing now use and a search for job.'
+        title:'Sin Oportunidades Perdidas',
+        desc:'Recibe notificaciones de proyectos que coinciden con tu especialidad.'
     },
 ]
 
@@ -649,26 +649,26 @@ export const teamData = [
     {
         image:'assets/images/team/04.jpg',
         social:['facebook','instagram','twitter'],
-        name:'Jack John',
-        position:'Job Seeker'
+        name:'Carlos Mendoza',
+        position:'Proveedor de Servicios'
     },
     {
         image:'assets/images/team/05.jpg',
         social:['facebook','instagram','twitter'],
-        name:'Krista John',
-        position:'Job Seeker'
+        name:'Ana Torres',
+        position:'Gestora de Proyectos'
     },
     {
         image:'assets/images/team/06.jpg',
         social:['facebook','instagram','twitter'],
-        name:'Roger Jackson',
-        position:'Job Seeker'
+        name:'Luis Paredes',
+        position:'Especialista en Minería'
     },
     {
         image:'assets/images/team/07.jpg',
         social:['facebook','instagram','twitter'],
-        name:'Johnny English',
-        position:'Job Seeker'
+        name:'María Quispe',
+        position:'Consultora de Negocios'
     },
 ]
 

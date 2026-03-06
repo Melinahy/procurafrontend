@@ -1,176 +1,115 @@
-<app-navbar/>
+<app-spinner *ngIf="loading" message="Cargando requerimiento..."></app-spinner>
 
-<section class="bg-half-170 d-table w-100" style="background: url('/assets/images/hero/bg.jpg');">
-    <div class="bg-overlay bg-gradient-overlay"></div>
-    <div class="container">
-        <div class="row mt-5 justify-content-center">
-            <div class="col-12">
-                <div class="title-heading text-center">
-                    <img [src]="data?.image ? data?.image: '/assets/images/company/lenovo-logo.png'" class="avatar avatar-small rounded-pill p-2 bg-white" alt="">
-                    <h5 class="heading fw-semibold mb-0 sub-heading text-white title-dark mt-3">{{data?.title ? data?.title : 'Back-End Developer'}}</h5>
-                </div>
-            </div>
-        </div>
+<app-navbar />
 
-        <div class="position-middle-bottom">
-            <nav aria-label="breadcrumb" class="d-block">
-                <ul class="breadcrumb breadcrumb-muted mb-0 p-0">
-                    <li class="breadcrumb-item"><a [routerLink]="'/'">Jobnova</a></li>
-                    <li class="breadcrumb-item"><a [routerLink]="'/job-grid-one'">Jobs</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Job Detail</li>
-                </ul>
-            </nav>
-        </div>
+<section class="detail-page">
+  <div class="detail-container">
+
+    <div class="detail-header">
+      <button class="btn-back" (click)="goBack()">← Volver</button>
+      <h1>{{ project?.title || 'Requerimiento' }}</h1>
+      <div class="header-meta" *ngIf="project">
+        <span class="status-badge" [ngClass]="'badge-' + (project.status || 'open').toLowerCase()">
+          {{ getStatusLabel(project.status) }}
+        </span>
+        <span class="category-tag">{{ getCategoryLabel(project.category) }}</span>
+      </div>
     </div>
+
+    <div class="alert-error" *ngIf="error">{{ error }}</div>
+
+    <div class="detail-layout" *ngIf="project && !loading">
+
+      <!-- Main content -->
+      <div class="detail-main">
+
+        <div class="info-card">
+          <h3 class="section-title">Descripción</h3>
+          <p class="description-text">{{ project.description }}</p>
+        </div>
+
+        <div class="info-card" *ngIf="project.requirements">
+          <h3 class="section-title">Requisitos</h3>
+          <p class="description-text">{{ project.requirements }}</p>
+        </div>
+
+        <div class="info-card" *ngIf="project.attachmentUrl">
+          <h3 class="section-title">Adjunto</h3>
+          <a [href]="project.attachmentUrl" target="_blank" class="attachment-link">
+            📎 Ver documento adjunto
+          </a>
+        </div>
+
+        <div class="apply-section" *ngIf="isProvider && project.status?.toUpperCase() === 'PUBLISHED'">
+          <p class="apply-hint">¿Te interesa este requerimiento? Envía tu oferta ahora.</p>
+          <button class="btn-primary-action" (click)="applyNow()">Postular ahora →</button>
+        </div>
+
+        <div class="apply-section company-note" *ngIf="!isProvider">
+          <p>Solo los proveedores pueden postular a requerimientos.</p>
+        </div>
+
+        <div class="apply-section closed-note" *ngIf="isProvider && project.status?.toUpperCase() !== 'PUBLISHED'">
+          <p>Este requerimiento no está abierto para postulaciones (estado: {{ getStatusLabel(project.status) }}).</p>
+        </div>
+
+      </div>
+
+      <!-- Sidebar -->
+      <aside class="detail-sidebar">
+        <div class="info-card">
+          <h3 class="section-title">Información</h3>
+
+          <div class="info-item" *ngIf="project.companyName">
+            <span class="info-label">Empresa</span>
+            <span class="info-value">{{ project.companyName }}</span>
+          </div>
+
+          <div class="info-item" *ngIf="project.location">
+            <span class="info-label">📍 Ubicación</span>
+            <span class="info-value">{{ project.location }}</span>
+          </div>
+
+          <div class="info-item" *ngIf="project.budgetMin || project.budgetMax">
+            <span class="info-label">💰 Presupuesto</span>
+            <span class="info-value">
+              <ng-container *ngIf="project.budgetMin && project.budgetMax">
+                S/ {{ project.budgetMin | number }} – S/ {{ project.budgetMax | number }}
+              </ng-container>
+              <ng-container *ngIf="project.budgetMin && !project.budgetMax">
+                Desde S/ {{ project.budgetMin | number }}
+              </ng-container>
+              <ng-container *ngIf="!project.budgetMin && project.budgetMax">
+                Hasta S/ {{ project.budgetMax | number }}
+              </ng-container>
+            </span>
+          </div>
+
+          <div class="info-item" *ngIf="project.deadline">
+            <span class="info-label">📅 Fecha límite</span>
+            <span class="info-value">{{ project.deadline | date:'dd/MM/yyyy' }}</span>
+          </div>
+
+          <div class="info-item" *ngIf="project.createdAt">
+            <span class="info-label">🗓 Publicado</span>
+            <span class="info-value">{{ project.createdAt | date:'dd/MM/yyyy' }}</span>
+          </div>
+
+          <div class="info-item">
+            <span class="info-label">Categoría</span>
+            <span class="info-value">{{ getCategoryLabel(project.category) }}</span>
+          </div>
+        </div>
+
+        <button class="btn-primary-action full-width" (click)="applyNow()"
+          *ngIf="isProvider && project.status?.toUpperCase() === 'PUBLISHED'">
+          Postular ahora →
+        </button>
+      </aside>
+
+    </div>
+
+  </div>
 </section>
-<div class="position-relative">
-    <div class="shape overflow-hidden text-white">
-        <svg viewBox="0 0 2880 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0 48H1437.5H2880V0H2160C1442.5 52 720 0 720 0H0V48Z" fill="currentColor"></path>
-        </svg>
-    </div>
-</div>
 
-<section class="section">
-    <div class="container">
-        <div class="row g-4">
-            <div class="col-lg-4 col-md-6 col-12">
-                <div class="card bg-white rounded shadow sticky-bar">
-                    <div class="p-4">
-                        <h5 class="mb-0">Job Information</h5>
-                    </div>
-
-                    <div class="card-body p-4 border-top">
-                        <div class="d-flex widget align-items-center">
-                            <i data-feather="layout" class="fea icon-ex-md me-3"></i>
-                            <div class="flex-1">
-                                <h6 class="widget-title mb-0">Company Name:</h6>
-                                <small class="text-primary mb-0">{{data?.name ? data?.name : 'Lenovo'}}</small>
-                            </div>
-                        </div>
-
-                        <div class="d-flex widget align-items-center mt-3">
-                            <i data-feather="user-check" class="fea icon-ex-md me-3"></i>
-                            <div class="flex-1">
-                                <h6 class="widget-title mb-0">Employee Type:</h6>
-                                <small class="text-primary mb-0">{{data?.jobType ? data?.jobType : 'Full Time'}}</small>
-                            </div>
-                        </div>
-
-                        <div class="d-flex widget align-items-center mt-3">
-                            <i data-feather="map-pin" class="fea icon-ex-md me-3"></i>
-                            <div class="flex-1">
-                                <h6 class="widget-title mb-0">Location:</h6>
-                                <small class="text-primary mb-0">{{data?.location ? data?.location : 'Beijing, China'}}</small>
-                            </div>
-                        </div>
-
-                        <div class="d-flex widget align-items-center mt-3">
-                            <i data-feather="monitor" class="fea icon-ex-md me-3"></i>
-                            <div class="flex-1">
-                                <h6 class="widget-title mb-0">Job Type:</h6>
-                                <small class="text-primary mb-0">{{data?.title ? data?.title : 'Back-End Developer'}}</small>
-                            </div>
-                        </div>
-
-                        <div class="d-flex widget align-items-center mt-3">
-                            <i data-feather="briefcase" class="fea icon-ex-md me-3"></i>
-                            <div class="flex-1">
-                                <h6 class="widget-title mb-0">Experience:</h6>
-                                <small class="text-primary mb-0">+2 Year</small>
-                            </div>
-                        </div>
-
-                        <div class="d-flex widget align-items-center mt-3">
-                            <i data-feather="book" class="fea icon-ex-md me-3"></i>
-                            <div class="flex-1">
-                                <h6 class="widget-title mb-0">Qualifications:</h6>
-                                <small class="text-primary mb-0">MSCIT</small>
-                            </div>
-                        </div>
-
-                        <div class="d-flex widget align-items-center mt-3">
-                            <i data-feather="dollar-sign" class="fea icon-ex-md me-3"></i>
-                            <div class="flex-1">
-                                <h6 class="widget-title mb-0">Salary:</h6>
-                                <small class="text-primary mb-0">+50k to 70k</small>
-                            </div>
-                        </div>
-
-                        <div class="d-flex widget align-items-center mt-3">
-                            <i data-feather="clock" class="fea icon-ex-md me-3"></i>
-                            <div class="flex-1">
-                                <h6 class="widget-title mb-0">Date posted:</h6>
-                                <small class="text-primary mb-0 mb-0">5th Sep, 2021</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-8 col-md-6 col-12">
-                <h5>Job Description: </h5>
-                <p class="text-muted">One disadvantage of Lorum Ipsum is that in Latin certain letters appear more frequently than others - which creates a distinct visual impression. Moreover, in Latin only words at the beginning of sentences are capitalized.</p>
-                <p class="text-muted">This means that Lorem Ipsum cannot accurately represent, for example, German, in which all nouns are capitalized. Thus, Lorem Ipsum has only limited suitability as a visual filler for German texts. If the fill text is intended to illustrate the characteristics of different typefaces.</p>
-                <p class="text-muted">It sometimes makes sense to select texts containing the various letters and symbols specific to the output language.</p>
-                
-                <h5 class="mt-4">Responsibilities and Duties: </h5>
-                <p class="text-muted">It sometimes makes sense to select texts containing the various letters and symbols specific to the output language.</p>
-                <ul class="list-unstyled">
-                    <li *ngFor="let item of duties" class="text-muted mt-2"><i data-feather="arrow-right" class="fea icon-sm text-primary me-2"></i>{{item}}</li>
-                </ul>
-
-                <h5 class="mt-4">Required Experience, Skills and Qualifications: </h5>
-                <p class="text-muted">It sometimes makes sense to select texts containing the various letters and symbols specific to the output language.</p>
-                <ul class="list-unstyled">
-                    <li *ngFor="let item of skill" class="text-muted mt-2"><i data-feather="arrow-right" class="fea icon-sm text-primary me-2"></i>{{item}}</li>
-                </ul>
-
-                <div class="mt-4">
-                    <a [routerLink]="'/job-apply'" class="btn btn-outline-primary">Apply Now <i class="mdi mdi-send"></i></a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="container mt-100 mt-60">
-        <div class="row justify-content-center mb-4 pb-2">
-            <div class="col-12">
-                <div class="section-title text-center">
-                    <h4 class="title mb-3">Related Vacancies</h4>
-                    <p class="text-muted para-desc mx-auto mb-0">Search all the open positions on the web. Get your own personalized salary estimate. Read reviews on over 30000+ companies worldwide.</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div *ngFor="let item of jobData.slice(0,3)" class="col-lg-4 col-md-6 col-12 mt-4 pt-2">
-                <div class="job-post rounded shadow p-4">
-                    <div class="d-flex align-items-center justify-content-between">
-                        <div class="d-flex align-items-center">
-                            <img [src]="item.image" class="avatar avatar-small rounded shadow p-3 bg-white" alt="">
-                            <div class="ms-3">
-                                <a [routerLink]="'/employer-profile'" class="h5 company text-dark">{{item.name}}</a>
-                                <span class="text-muted d-flex align-items-center small mt-2"><i data-feather="clock" class="fea icon-sm me-1"></i> {{item.posted}}</span>
-                            </div>
-                        </div>
-                        <span class="badge bg-soft-primary">{{item.jobType}}</span>
-                    </div>
-
-                    <div class="mt-4">
-                        <a [routerLink]="'/job-detail-one'" class="text-dark title h5">{{item.title}}</a>
-                        <span class="text-muted d-flex align-items-center mt-2"><i data-feather="map-pin" class="fea icon-sm me-1"></i>{{item.location}}</span>
-                        <div class="progress-box mt-3">
-                            <div class="progress mb-2">
-                                <div class="progress-bar position-relative bg-primary" style="width:50%;"></div>
-                            </div>
-                            <span class="text-dark">{{item.applied}} applied of <span class="text-muted">{{item.vacancy}} vacancy</span></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<app-footer-top/>
-<app-scroll-to-top/>
+<app-scroll-to-top />

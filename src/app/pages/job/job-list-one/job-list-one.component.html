@@ -42,6 +42,14 @@
   </div>
 
   <div class="container mt-60">
+    <!-- Error -->
+    <div *ngIf="error" class="alert alert-danger text-center py-3 mb-4">{{ error }}</div>
+
+    <!-- Estado vacío -->
+    <div *ngIf="!loading && !error && jobData.length === 0" class="text-center py-5">
+      <p class="text-muted fs-5">No hay requerimientos publicados disponibles.</p>
+    </div>
+
     <!-- Resultados header con paginación -->
     <div class="results-header" *ngIf="jobData.length">
       <span class="results-count">
@@ -84,10 +92,10 @@
         </div>
 
         <div class="req-center">
-          <span class="req-badge" [class.urgent]="item.status === 'Urgente'">{{ item.category }}</span>
-          <span class="req-status" [class.status-urgent]="item.status === 'Urgente'">
-            <i class="mdi" [class.mdi-circle-small]="item.status === 'Abierto'" [class.mdi-alert-circle-outline]="item.status === 'Urgente'"></i>
-            {{ item.status }}
+          <span class="req-badge">{{ getCategoryLabel(item.category) }}</span>
+          <span class="req-status" [style.color]="getStatusColor(item.status ?? '')">
+            <i class="mdi mdi-circle-small"></i>
+            {{ getStatusLabel(item.status ?? '') }}
           </span>
         </div>
 

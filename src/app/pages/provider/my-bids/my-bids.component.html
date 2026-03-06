@@ -1,0 +1,120 @@
+<app-spinner *ngIf="loading" message="Cargando ofertas..."></app-spinner>
+
+<app-navbar />
+
+<section class="mgmt-page">
+  <div class="mgmt-container">
+
+    <div class="mgmt-header">
+      <div>
+        <h1>Mis Ofertas</h1>
+        <p>Gestiona las ofertas que has enviado a proyectos</p>
+      </div>
+      <button class="btn-primary-action" (click)="showBidForm = !showBidForm">
+        {{ showBidForm ? '✕ Cancelar' : '+ Enviar oferta' }}
+      </button>
+    </div>
+
+    <!-- ── Formulario nueva oferta ── -->
+    <div class="bid-form-card" *ngIf="showBidForm">
+      <h4 class="card-section-title">Nueva oferta</h4>
+
+      <div class="alert-error" *ngIf="bidError">{{ bidError }}</div>
+
+      <div class="form-row single">
+        <div class="form-group">
+          <label>Proyecto *</label>
+          <select [(ngModel)]="newBid.projectId" name="projectId">
+            <option [ngValue]="undefined" disabled>Selecciona un proyecto...</option>
+            <option *ngFor="let p of openProjects" [ngValue]="p.id">{{ p.title }}</option>
+          </select>
+          <p class="hint" *ngIf="!loadingProjects && openProjects.length === 0">No hay proyectos abiertos disponibles.</p>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Monto ofertado (S/) *</label>
+          <div class="input-wrap">
+            <span class="input-icon">💰</span>
+            <input type="number" placeholder="8500" [(ngModel)]="newBid.amount" name="amount" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Días estimados</label>
+          <div class="input-wrap">
+            <span class="input-icon">📅</span>
+            <input type="number" placeholder="30" [(ngModel)]="newBid.estimatedDays" name="estimatedDays" />
+          </div>
+        </div>
+      </div>
+
+      <div class="form-row single">
+        <div class="form-group">
+          <label>Propuesta *</label>
+          <textarea rows="3" placeholder="Describe cómo abordarías este proyecto..."
+            [(ngModel)]="newBid.proposal" name="proposal"></textarea>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button class="btn-secondary-action" (click)="showBidForm = false" [disabled]="savingBid">Cancelar</button>
+        <button class="btn-primary-action" (click)="submitBid()" [disabled]="savingBid">
+          {{ savingBid ? 'Enviando...' : 'Enviar oferta' }}
+        </button>
+      </div>
+    </div>
+
+    <!-- ── Mensajes ── -->
+    <div class="alert-success" *ngIf="successMsg">{{ successMsg }}</div>
+    <div class="alert-error"   *ngIf="error">{{ error }}</div>
+
+    <!-- ── Lista de ofertas ── -->
+    <div class="empty-state" *ngIf="!loading && bids.length === 0 && !error">
+      <span class="empty-icon">📤</span>
+      <h4>Aún no has enviado ofertas</h4>
+      <p>Explora los requerimientos disponibles y envía tu primera oferta.</p>
+      <a [routerLink]="'/job-list-one'" class="btn-primary-action">Ver requerimientos</a>
+    </div>
+
+    <div class="bids-list" *ngIf="!loading && bids.length > 0">
+      <div class="bid-card" *ngFor="let bid of bids">
+
+        <div class="bid-project">
+          <h5>{{ bid.projectTitle || 'Proyecto #' + bid.projectId }}</h5>
+          <span class="status-badge" [ngClass]="statusClass(bid.status)">{{ statusLabel(bid.status) }}</span>
+        </div>
+
+        <div class="bid-details">
+          <div class="detail-item">
+            <span class="detail-label">Oferta</span>
+            <span class="detail-value amount">S/ {{ bid.amount | number }}</span>
+          </div>
+          <div class="detail-item" *ngIf="bid.estimatedDays">
+            <span class="detail-label">Plazo</span>
+            <span class="detail-value">{{ bid.estimatedDays }} días</span>
+          </div>
+          <div class="detail-item" *ngIf="bid.createdAt">
+            <span class="detail-label">Enviada</span>
+            <span class="detail-value">{{ bid.createdAt | date:'dd/MM/yyyy' }}</span>
+          </div>
+        </div>
+
+        <p class="bid-proposal">{{ bid.proposal }}</p>
+
+        <div class="bid-actions">
+          <button class="btn-action btn-view" (click)="viewProject(bid)">Ver proyecto</button>
+          <button class="btn-action btn-withdraw" (click)="withdrawBid(bid)"
+            *ngIf="bid.status === 'PENDING'"
+            [disabled]="actionLoading === bid.id">
+            Retirar oferta
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<app-scroll-to-top />

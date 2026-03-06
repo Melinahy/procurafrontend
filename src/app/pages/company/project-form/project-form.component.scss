@@ -1,62 +1,64 @@
 @import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&display=swap");
 
 :host {
-  --blue: #2563eb; --blue-dark: #1a3faa;
-  --surface: #f0f5ff; --border: #dbeafe; --text: #0f172a; --muted: #64748b;
-  --red: #dc2626; --green: #16a34a;
+  --blue: #2563eb; --blue-dark: #1a3faa; --blue-300: #60a5fa;
+  --surface: #f0f5ff; --border: #dbeafe; --text: #0f172a; --muted: #64748b; --red: #dc2626;
   display: block; background: #f8fafc; min-height: 100vh;
   font-family: "Instrument Sans", sans-serif;
 }
 
-.apply-page { padding: 100px 24px 60px; }
-.apply-container { max-width: 680px; margin: 0 auto; }
+.edit-page { padding: 100px 24px 60px; }
+.edit-container { max-width: 720px; margin: 0 auto; }
 
-.apply-header {
-  margin-bottom: 20px;
+.edit-header {
+  margin-bottom: 28px;
   h1 { font-family: "Bricolage Grotesque", sans-serif; font-size: 28px; font-weight: 800; color: var(--text); letter-spacing: -1px; margin: 8px 0 4px; }
-  p { font-size: 14px; color: var(--muted); margin: 0; strong { color: var(--text); } }
+  p  { font-size: 14px; color: var(--muted); margin: 0; }
 }
 
 .btn-back {
-  background: none; border: none; color: var(--muted); font-size: 13px; cursor: pointer; padding: 0; margin-bottom: 4px;
-  &:hover { color: var(--blue); }
+  background: var(--surface); border: 1.5px solid var(--border); border-radius: 8px;
+  padding: 6px 14px; font-size: 13px; font-weight: 600; color: var(--muted); cursor: pointer;
+  transition: all 0.2s ease; margin-bottom: 10px;
+  &:hover { background: white; color: var(--blue); border-color: var(--blue-300); }
 }
 
-.project-summary {
-  display: flex; gap: 20px; flex-wrap: wrap; background: white;
-  border: 1px solid var(--border); border-radius: 12px; padding: 16px 20px; margin-bottom: 20px;
+.settings-card {
+  background: white; border-radius: 16px; padding: 28px; border: 1px solid var(--border);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
 }
-.summary-item { display: flex; flex-direction: column; gap: 2px; }
-.summary-label { font-size: 11px; font-weight: 600; color: var(--muted); }
-.summary-value { font-size: 13px; font-weight: 600; color: var(--text); }
-
-.settings-card { background: white; border: 1px solid var(--border); border-radius: 16px; padding: 28px; }
 
 .alert-error, .alert-success {
   border-radius: 10px; padding: 10px 14px; font-size: 13px; margin-bottom: 16px; font-weight: 500;
 }
 .alert-error   { background: #fef2f2; color: var(--red); border: 1px solid #fecaca; }
-.alert-success { background: #f0fdf4; color: var(--green); border: 1px solid #bbf7d0; }
+.alert-success { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
 
-.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; &.single { grid-template-columns: 1fr; } }
+.form-row {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+  &.single { grid-template-columns: 1fr; }
+}
+
 .form-group {
   margin-bottom: 14px;
   label { display: block; font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 5px; }
-  textarea {
+  textarea, select {
     width: 100%; padding: 10px 12px; border: 1.5px solid var(--border); border-radius: 10px;
     font-family: "Instrument Sans", sans-serif; font-size: 13px; color: var(--text);
-    background: var(--surface); outline: none; resize: vertical; transition: all 0.18s ease; box-sizing: border-box;
+    background: var(--surface); outline: none; resize: vertical; transition: all 0.18s ease;
     &:focus { border-color: var(--blue); background: white; box-shadow: 0 0 0 3px rgba(37,99,235,0.08); }
     &::placeholder { color: #b8c5d6; }
   }
+  select { resize: none; cursor: pointer; }
 }
 
 .input-wrap { position: relative; }
 .input-icon { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); font-size: 13px; pointer-events: none; opacity: 0.5; }
+
 .input-wrap input {
   width: 100%; padding: 10px 12px 10px 32px; border: 1.5px solid var(--border);
   border-radius: 10px; font-family: "Instrument Sans", sans-serif; font-size: 13px;
-  color: var(--text); background: var(--surface); outline: none; transition: all 0.18s ease; box-sizing: border-box;
+  color: var(--text); background: var(--surface); outline: none; transition: all 0.18s ease;
   &:focus { border-color: var(--blue); background: white; box-shadow: 0 0 0 3px rgba(37,99,235,0.08); }
   &::placeholder { color: #b8c5d6; }
 }
@@ -64,15 +66,15 @@
 .form-actions { display: flex; gap: 12px; margin-top: 8px; }
 
 .btn-primary-action {
-  padding: 11px 24px; background: linear-gradient(135deg, var(--blue-dark), var(--blue));
+  padding: 11px 28px; background: linear-gradient(135deg, var(--blue-dark), var(--blue));
   color: white; border: none; border-radius: 10px; font-family: "Bricolage Grotesque", sans-serif;
-  font-size: 14px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 14px rgba(37,99,235,0.3);
-  transition: all 0.2s ease;
-  &:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(37,99,235,0.4); }
-  &:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+  font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(37,99,235,0.3);
+  &:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(37,99,235,0.4); }
+  &:disabled { opacity: 0.5; cursor: not-allowed; }
 }
 .btn-secondary-action {
-  padding: 11px 24px; background: white; color: var(--blue); border: 1.5px solid var(--blue);
+  padding: 11px 28px; background: white; color: var(--blue); border: 1.5px solid var(--blue);
   border-radius: 10px; font-family: "Bricolage Grotesque", sans-serif; font-size: 14px;
   font-weight: 700; cursor: pointer; transition: all 0.2s ease;
   &:hover:not(:disabled) { background: var(--blue); color: white; }
@@ -80,6 +82,8 @@
 }
 
 @media (max-width: 640px) {
-  .apply-page { padding: 80px 16px 40px; }
+  .edit-page { padding: 80px 16px 40px; }
+  .settings-card { padding: 20px; }
   .form-row { grid-template-columns: 1fr; }
+  .form-actions { flex-direction: column; button { width: 100%; } }
 }

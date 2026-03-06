@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { NavbarComponent } from '../../../components/navbar/navbar/navbar.component';
 import { ScrollToTopComponent } from '../../../components/scroll-to-top/scroll-to-top.component';
 import { SpinnerComponent } from '../../../components/spinner/spinner.component';
@@ -10,7 +10,7 @@ import { CompanyService, CompanyProfile } from '../../../services/company.servic
 @Component({
   selector: 'app-employer-profile-edit',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, NavbarComponent, ScrollToTopComponent, SpinnerComponent],
+  imports: [CommonModule, FormsModule, NavbarComponent, ScrollToTopComponent, SpinnerComponent],
   templateUrl: './employer-profile-edit.component.html',
   styleUrl: './employer-profile-edit.component.scss',
 })

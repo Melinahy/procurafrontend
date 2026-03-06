@@ -1,112 +1,79 @@
-<app-navbar/>
+<app-spinner *ngIf="loadingProject || saving" [message]="saving ? 'Enviando oferta...' : 'Cargando...'"></app-spinner>
 
-<section class="bg-half-170 d-table w-100" style="background: url('/assets/images/hero/bg.jpg');">
-    <div class="bg-overlay bg-gradient-overlay"></div>
-    <div class="container">
-        <div class="row mt-5 justify-content-center">
-            <div class="col-12">
-                <div class="title-heading text-center">
-                    <img [src]="'/assets/images/company/lenovo-logo.png'" class="avatar avatar-small rounded-pill p-2 bg-white" alt="">
-                    <h5 class="heading fw-semibold mb-0 sub-heading text-white title-dark mt-3">Back-End Developer</h5>
-                </div>
+<app-navbar />
+
+<section class="apply-page">
+  <div class="apply-container">
+
+    <div class="apply-header">
+      <button class="btn-back" (click)="goBack()">← Volver</button>
+      <h1>Enviar oferta</h1>
+      <p *ngIf="project">Para: <strong>{{ project.title }}</strong></p>
+    </div>
+
+    <div class="project-summary" *ngIf="project">
+      <div class="summary-item" *ngIf="project.companyName">
+        <span class="summary-label">Empresa</span>
+        <span class="summary-value">{{ project.companyName }}</span>
+      </div>
+      <div class="summary-item" *ngIf="project.budgetMin || project.budgetMax">
+        <span class="summary-label">Presupuesto referencial</span>
+        <span class="summary-value">
+          <ng-container *ngIf="project.budgetMin && project.budgetMax">
+            S/ {{ project.budgetMin | number }} – S/ {{ project.budgetMax | number }}
+          </ng-container>
+          <ng-container *ngIf="project.budgetMin && !project.budgetMax">Desde S/ {{ project.budgetMin | number }}</ng-container>
+          <ng-container *ngIf="!project.budgetMin && project.budgetMax">Hasta S/ {{ project.budgetMax | number }}</ng-container>
+        </span>
+      </div>
+      <div class="summary-item" *ngIf="project.deadline">
+        <span class="summary-label">Fecha límite</span>
+        <span class="summary-value">{{ project.deadline | date:'dd/MM/yyyy' }}</span>
+      </div>
+    </div>
+
+    <div class="settings-card">
+      <div class="alert-success" *ngIf="successMsg">{{ successMsg }}</div>
+      <div class="alert-error"   *ngIf="errorMsg">{{ errorMsg }}</div>
+
+      <form (ngSubmit)="onSubmit()">
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="bidAmount">Monto ofertado (S/) *</label>
+            <div class="input-wrap">
+              <span class="input-icon">💰</span>
+              <input id="bidAmount" type="number" placeholder="8500" [(ngModel)]="bid.amount" name="amount" required />
             </div>
+          </div>
+          <div class="form-group">
+            <label for="bidDays">Días estimados de entrega</label>
+            <div class="input-wrap">
+              <span class="input-icon">📅</span>
+              <input id="bidDays" type="number" placeholder="30" [(ngModel)]="bid.estimatedDays" name="estimatedDays" />
+            </div>
+          </div>
         </div>
 
-        <div class="position-middle-bottom">
-            <nav aria-label="breadcrumb" class="d-block">
-                <ul class="breadcrumb breadcrumb-muted mb-0 p-0">
-                    <li class="breadcrumb-item"><a [routerLink]="'/'">Jobnova</a></li>
-                    <li class="breadcrumb-item"><a [routerLink]="'/job-grid-one'">Job</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Job Apply</li>
-                </ul>
-            </nav>
+        <div class="form-row single">
+          <div class="form-group">
+            <label for="bidProposal">Propuesta *</label>
+            <textarea id="bidProposal" rows="5" placeholder="Describe cómo abordarías este proyecto, tu experiencia relevante, metodología de trabajo..."
+              [(ngModel)]="bid.proposal" name="proposal" required></textarea>
+          </div>
         </div>
-    </div>
-</section>
-<div class="position-relative">
-    <div class="shape overflow-hidden text-white">
-        <svg viewBox="0 0 2880 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0 48H1437.5H2880V0H2160C1442.5 52 720 0 720 0H0V48Z" fill="currentColor"></path>
-        </svg>
-    </div>
-</div>
 
-<section class="section bg-light">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-7 col-md-7">
-                <div class="card border-0">
-                    <form class="rounded shadow p-4">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="mb-3">
-                                    <label class="form-label fw-semibold">Your Name :<span class="text-danger">*</span></label>
-                                    <input name="name" id="name2" type="text" class="form-control" placeholder="First Name :">
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="mb-3">
-                                    <label class="form-label fw-semibold">Your Email :<span class="text-danger">*</span></label>
-                                    <input name="email" id="email2" type="email" class="form-control" placeholder="Your email :">
-                                </div> 
-                            </div>
-                            <div class="col-12">
-                                <div class="mb-3">
-                                    <label class="form-label fw-semibold">Your Phone no. :<span class="text-danger">*</span></label>
-                                    <input name="number" id="number2" type="number" class="form-control" placeholder="Your phone no. :">
-                                </div> 
-                            </div>
-                            <div class="col-12">
-                                <div class="mb-3">
-                                    <label class="form-label fw-semibold">Job Title :</label>
-                                    <input name="subject" id="subject2" class="form-control" placeholder="Title :">
-                                </div>                                                                               
-                            </div>
-                            <div class="col-12">
-                                <div class="mb-3">
-                                    <label class="form-label fw-semibold">Types of jobs :</label>
-                                    <select class="form-control form-select" id="Sortbylist-Shop">
-                                        <option>All Jobs</option>
-                                        <option>Full Time</option>
-                                        <option>Half Time</option>
-                                        <option>Remote</option>
-                                        <option>In Office</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="mb-3">
-                                    <label class="form-label fw-semibold">Description :</label>
-                                    <textarea name="comments" id="comments2" rows="4" class="form-control" placeholder="Describe the job :"></textarea>
-                                </div>
-                            </div>                                    
-                            <div class="col-12">
-                                <div class="mb-3">
-                                    <label for="formFile" class="form-label fw-semibold">Upload Your Cv / Resume :</label>
-                                    <input class="form-control" type="file" id="formFile">
-                                </div>                                                                               
-                            </div>
-                            <div class="col-12">
-                                <div class="mb-3">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                        <label class="form-check-label" for="flexCheckDefault">I Accept <a href="#" class="text-primary">Terms And Condition</a></label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <input type="submit" id="submit2" name="send" class="submitBnt btn btn-primary" value="Apply Now">
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>  
+        <div class="form-actions">
+          <button type="button" class="btn-secondary-action" (click)="goBack()" [disabled]="saving">Cancelar</button>
+          <button type="submit" class="btn-primary-action" [disabled]="saving">
+            {{ saving ? 'Enviando...' : 'Enviar oferta' }}
+          </button>
         </div>
+
+      </form>
     </div>
+
+  </div>
 </section>
 
-<app-footer-top/>
-
-<app-scroll-to-top/>
+<app-scroll-to-top />

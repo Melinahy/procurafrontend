@@ -1,0 +1,88 @@
+@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&display=swap");
+
+:host {
+  --blue: #2563eb; --blue-dark: #1a3faa; --blue-300: #60a5fa;
+  --surface: #f0f5ff; --border: #dbeafe; --text: #0f172a; --muted: #64748b;
+  --red: #dc2626; --green: #16a34a;
+  display: block; background: #f8fafc; min-height: 100vh;
+  font-family: "Instrument Sans", sans-serif;
+}
+
+.detail-page { padding: 100px 24px 60px; }
+.detail-container { max-width: 1060px; margin: 0 auto; }
+
+.detail-header {
+  margin-bottom: 28px;
+  h1 { font-family: "Bricolage Grotesque", sans-serif; font-size: 28px; font-weight: 800; color: var(--text); letter-spacing: -1px; margin: 8px 0; }
+}
+
+.header-meta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.category-tag { font-size: 12px; font-weight: 600; color: var(--blue); background: var(--surface); border: 1px solid var(--border); padding: 3px 10px; border-radius: 20px; }
+
+.btn-back {
+  background: none; border: none; color: var(--muted); font-size: 13px; cursor: pointer; padding: 0; margin-bottom: 4px;
+  &:hover { color: var(--blue); }
+}
+
+.alert-error { background: #fef2f2; color: var(--red); border: 1px solid #fecaca; border-radius: 10px; padding: 10px 14px; font-size: 13px; margin-bottom: 16px; }
+
+.detail-layout {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 24px;
+  align-items: start;
+}
+
+.detail-main { display: flex; flex-direction: column; gap: 20px; }
+
+.info-card {
+  background: white; border: 1px solid var(--border); border-radius: 16px; padding: 24px;
+}
+
+.section-title { font-family: "Bricolage Grotesque", sans-serif; font-size: 16px; font-weight: 700; color: var(--text); margin: 0 0 14px; }
+
+.description-text { font-size: 14px; color: var(--muted); line-height: 1.7; margin: 0; white-space: pre-wrap; }
+
+.attachment-link { font-size: 14px; color: var(--blue); text-decoration: none; &:hover { text-decoration: underline; } }
+
+.apply-section {
+  background: white; border: 1px solid var(--border); border-radius: 16px; padding: 24px;
+  display: flex; flex-direction: column; gap: 14px;
+  &.company-note, &.closed-note { border-color: #e2e8f0; }
+  p { font-size: 14px; color: var(--muted); margin: 0; }
+}
+.apply-hint { font-size: 15px; font-weight: 600; color: var(--text) !important; }
+
+.detail-sidebar { display: flex; flex-direction: column; gap: 16px; position: sticky; top: 90px; }
+
+.info-item {
+  display: flex; flex-direction: column; gap: 2px; margin-bottom: 14px;
+  &:last-child { margin-bottom: 0; }
+}
+.info-label { font-size: 11px; font-weight: 600; color: var(--muted); }
+.info-value { font-size: 14px; color: var(--text); font-weight: 500; }
+
+/* Status badges */
+.status-badge { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
+.badge-draft       { background: #f1f5f9; color: #64748b; }
+.badge-open        { background: #dcfce7; color: #15803d; }
+.badge-in_progress { background: #dbeafe; color: #1e40af; }
+.badge-closed      { background: #fef9c3; color: #92400e; }
+.badge-completed   { background: #f3e8ff; color: #7e22ce; }
+
+/* Buttons */
+.btn-primary-action {
+  padding: 12px 24px; background: linear-gradient(135deg, var(--blue-dark), var(--blue));
+  color: white; border: none; border-radius: 10px; font-family: "Bricolage Grotesque", sans-serif;
+  font-size: 14px; font-weight: 700; cursor: pointer; display: inline-flex;
+  align-items: center; justify-content: center; gap: 6px;
+  box-shadow: 0 4px 14px rgba(37,99,235,0.3); transition: all 0.2s ease;
+  &:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(37,99,235,0.4); }
+  &.full-width { width: 100%; }
+}
+
+@media (max-width: 768px) {
+  .detail-page { padding: 80px 16px 40px; }
+  .detail-layout { grid-template-columns: 1fr; }
+  .detail-sidebar { position: static; }
+}

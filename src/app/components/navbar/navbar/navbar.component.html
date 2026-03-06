@@ -89,7 +89,13 @@
         </div>
       </li>
 
-      <li class="list-inline-item ps-1 mb-0">
+      <li class="list-inline-item ps-1 mb-0" *ngIf="!isLoggedIn">
+        <a [routerLink]="'/login'" class="btn btn-sm btn-primary rounded-pill" style="font-size:13px; font-weight:600; padding:6px 16px">
+          Iniciar sesión
+        </a>
+      </li>
+
+      <li class="list-inline-item ps-1 mb-0" *ngIf="isLoggedIn">
         <div
           class="dropdown dropdown-primary"
           (clickOutside)="onClickedOutside2($event)"
@@ -100,9 +106,10 @@
             (click)="userMenu = !userMenu"
           >
             <img
-              [src]="'/assets/images/team/01.jpg'"
+              [src]="profilePhoto || '/assets/images/team/01.jpg'"
               class="img-fluid rounded-pill"
               alt=""
+              style="width:32px;height:32px;object-fit:cover;"
             />
           </button>
           <div
@@ -133,6 +140,17 @@
               {{
                 missingProfileType === "COMPANY" ? "Empresa" : "Proveedor"
               }}</a
+            >
+            <!-- Links según tipo de usuario -->
+            <a *ngIf="currentUser?.primaryType === 'COMPANY'"
+              [routerLink]="'/my-projects'"
+              class="dropdown-item fw-medium fs-6"
+              ><i data-feather="briefcase" class="fea icon-sm me-2 align-middle"></i>Mis Requerimientos</a
+            >
+            <a *ngIf="currentUser?.primaryType === 'PROVIDER'"
+              [routerLink]="'/my-bids'"
+              class="dropdown-item fw-medium fs-6"
+              ><i data-feather="send" class="fea icon-sm me-2 align-middle"></i>Mis Ofertas</a
             >
             <a
               [routerLink]="'/candidate-profile-setting'"
@@ -254,8 +272,7 @@
               '/helpcenter-support',
               '/aboutus',
               '/services',
-              '/pricing',
-            ].includes(manu)
+        ].includes(manu)
               ? 'active'
               : ''
           "
@@ -283,9 +300,6 @@
             </li>
             <li [ngClass]="manu === '/services' ? 'active' : ''">
               <a [routerLink]="'/services'" class="sub-menu-item">Servicios</a>
-            </li>
-            <li [ngClass]="manu === '/pricing' ? 'active' : ''">
-              <a [routerLink]="'/pricing'" class="sub-menu-item">Precios </a>
             </li>
           </ul>
         </li>

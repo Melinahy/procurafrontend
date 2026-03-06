@@ -1,0 +1,95 @@
+@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&display=swap");
+
+:host {
+  --blue: #2563eb; --blue-dark: #1a3faa; --blue-300: #60a5fa;
+  --surface: #f0f5ff; --border: #dbeafe; --text: #0f172a; --muted: #64748b;
+  --red: #dc2626; --green: #16a34a;
+  display: block; background: #f8fafc; min-height: 100vh;
+  font-family: "Instrument Sans", sans-serif;
+}
+
+.mgmt-page { padding: 100px 24px 60px; }
+.mgmt-container { max-width: 860px; margin: 0 auto; }
+
+.mgmt-header { margin-bottom: 28px; h1 { font-family: "Bricolage Grotesque", sans-serif; font-size: 28px; font-weight: 800; color: var(--text); letter-spacing: -1px; margin: 8px 0 4px; } p { font-size: 14px; color: var(--muted); margin: 0; } }
+
+.btn-back {
+  display: inline-block; background: var(--surface); border: 1.5px solid var(--border);
+  border-radius: 8px; padding: 6px 14px; font-size: 13px; font-weight: 600; color: var(--muted);
+  text-decoration: none; margin-bottom: 10px; transition: all 0.2s ease;
+  &:hover { background: white; color: var(--blue); border-color: var(--blue-300); }
+}
+
+.alert-error, .alert-success {
+  border-radius: 10px; padding: 10px 14px; font-size: 13px; margin-bottom: 16px; font-weight: 500;
+}
+.alert-error   { background: #fef2f2; color: var(--red); border: 1px solid #fecaca; }
+.alert-success { background: #f0fdf4; color: var(--green); border: 1px solid #bbf7d0; }
+
+.empty-state {
+  text-align: center; padding: 60px 24px; background: white;
+  border-radius: 16px; border: 1px solid var(--border);
+  .empty-icon { font-size: 48px; display: block; margin-bottom: 16px; }
+  h4 { font-family: "Bricolage Grotesque", sans-serif; font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+  p { color: var(--muted); font-size: 14px; }
+}
+
+.bids-list { display: flex; flex-direction: column; gap: 14px; }
+
+.bid-card {
+  background: white; border: 1px solid var(--border); border-radius: 14px; padding: 20px 22px;
+  display: grid; grid-template-columns: auto 1fr 2fr auto; gap: 20px; align-items: start;
+  transition: box-shadow 0.2s ease;
+  &:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
+}
+
+.bid-provider {
+  display: flex; align-items: center; gap: 12px; min-width: 160px;
+  h5 { font-size: 14px; font-weight: 700; color: var(--text); margin: 0 0 2px; }
+}
+
+.provider-avatar {
+  width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, var(--blue-dark), var(--blue));
+  color: white; font-weight: 700; font-size: 18px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.provider-spec { font-size: 12px; color: var(--muted); }
+
+.bid-info { text-align: center; }
+.bid-amount { font-family: "Bricolage Grotesque", sans-serif; font-size: 20px; font-weight: 800; color: var(--blue); }
+.bid-days { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+.bid-proposal {
+  p { font-size: 13px; color: var(--muted); margin-bottom: 8px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+}
+
+.bid-actions { display: flex; flex-direction: column; gap: 6px; min-width: 100px; }
+
+.btn-action {
+  padding: 7px 12px; border-radius: 8px; font-size: 12px; font-weight: 600;
+  cursor: pointer; border: none; transition: all 0.18s ease; width: 100%; text-align: center;
+  &:disabled { opacity: 0.5; cursor: not-allowed; }
+}
+.btn-view   { background: #eff6ff; color: var(--blue);   &:hover:not(:disabled) { background: var(--blue); color: white; } }
+.btn-accept { background: #f0fdf4; color: var(--green);  &:hover:not(:disabled) { background: var(--green); color: white; } }
+.btn-reject { background: #fef2f2; color: var(--red);    &:hover:not(:disabled) { background: var(--red); color: white; } }
+
+/* badges */
+.status-badge { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
+.badge-pending   { background: #fef9c3; color: #92400e; }
+.badge-accepted  { background: #dcfce7; color: #15803d; }
+.badge-rejected  { background: #fee2e2; color: #b91c1c; }
+.badge-withdrawn { background: #f1f5f9; color: #64748b; }
+
+@media (max-width: 768px) {
+  .bid-card { grid-template-columns: 1fr 1fr; grid-template-rows: auto auto; }
+  .bid-provider { grid-column: 1/2; }
+  .bid-info { grid-column: 2/3; text-align: right; }
+  .bid-proposal { grid-column: 1/3; }
+  .bid-actions { grid-column: 1/3; flex-direction: row; }
+}
+@media (max-width: 480px) {
+  .mgmt-page { padding: 80px 16px 40px; }
+  .bid-card { grid-template-columns: 1fr; }
+  .bid-info { text-align: left; }
+  .bid-actions { flex-wrap: wrap; }
+}
